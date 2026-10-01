@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en" data-theme="paloalto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reliable AI-Assisted Development in C++</title>
+  <style>
+    :root {
+      --bg-dark:#0f141c; --bg-dark-card:#181f2c; --bg-light:#f4f6f8; --bg-white:#fff;
+      --text-dark:#12161f; --text-muted:#556275; --text-light:#fff; --text-light-muted:#9ba7b7;
+      --primary:#fa582d; --primary-light:#fff0eb; --accent:#00c0f3; --line:#dce2e8;
+      --success:#2aa876; --shadow:0 24px 70px rgba(15,20,28,.18);
+      --font:"Avenir Next","Segoe UI",Arial,sans-serif;
+    }
+    html[data-theme="ocean"] { --primary:#0b78d0; --primary-light:#eaf5ff; --accent:#13a8a8; --bg-dark:#0b1725; }
+    html[data-theme="forest"] { --primary:#23805e; --primary-light:#eaf7f0; --accent:#d49b27; --bg-dark:#102019; }
+    html[data-theme="mono"] { --primary:#242933; --primary-light:#eceff3; --accent:#697586; --bg-dark:#101216; }
+    * { box-sizing:border-box; }
+    html, body { width:100%; height:100%; margin:0; overflow:hidden; background:#080b10; font-family:var(--font); color:var(--text-dark); }
+    button { font:inherit; }
+    .deck { position:relative; width:100%; height:100%; display:grid; place-items:center; }
+    .slide-container { position:relative; width:1280px; height:720px; overflow:hidden; background:var(--bg-light); box-shadow:var(--shadow); transform-origin:center; }
+    .slide { position:absolute; inset:0; display:none; padding:58px 68px 48px; background:var(--bg-light); }
+    .slide.active { display:block; }
+    .slide.dark { color:var(--text-light); background:var(--bg-dark); }
+    .slide.white { background:var(--bg-white); }
+    .slide::after { content:attr(data-index); position:absolute; right:30px; bottom:20px; font-size:12px; font-weight:800; letter-spacing:.14em; color:var(--text-muted); }
+    .slide.dark::after { color:var(--text-light-muted); }
+    .eyebrow { margin:0 0 10px; color:var(--primary); font-size:14px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { max-width:1040px; margin-bottom:20px; font-size:64px; line-height:1.01; letter-spacing:-.045em; }
+    h2 { max-width:1100px; margin-bottom:16px; font-size:42px; line-height:1.08; letter-spacing:-.035em; }
+    h3 { margin-bottom:8px; font-size:21px; line-height:1.15; }
+    p { font-size:20px; line-height:1.45; }
+    .lead { max-width:900px; color:var(--text-muted); font-size:24px; line-height:1.35; }
+    .dark .lead { color:var(--text-light-muted); }
+    .muted { color:var(--text-muted); }
+    .dark .muted { color:var(--text-light-muted); }
+    .accent { color:var(--primary); }
+    .meta { position:absolute; left:68px; bottom:50px; color:var(--text-light-muted); font-size:15px; font-weight:700; letter-spacing:.04em; }
+    .brand-mark { position:absolute; top:54px; right:68px; display:flex; align-items:center; gap:11px; font-size:13px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .brand-mark i { display:block; width:18px; height:18px; background:var(--primary); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); }
+    .hero-orbit { position:absolute; right:-92px; bottom:-195px; width:610px; height:610px; border:1px solid rgba(255,255,255,.16); border-radius:50%; }
+    .hero-orbit::before,.hero-orbit::after { content:""; position:absolute; border-radius:50%; }
+    .hero-orbit::before { inset:84px; border:2px solid rgba(0,192,243,.38); }
+    .hero-orbit::after { inset:180px; background:var(--primary); box-shadow:0 0 0 28px rgba(250,88,45,.15); }
+    .hero-node { position:absolute; right:304px; bottom:203px; width:16px; height:16px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 8px rgba(0,192,243,.14); }
+    .section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:32px; margin-bottom:28px; }
+    .section-head p { max-width:355px; margin-bottom:3px; color:var(--text-muted); font-size:17px; }
+    .panel { background:var(--bg-white); border:1px solid var(--line); border-radius:18px; box-shadow:0 12px 30px rgba(17,22,31,.06); }
+    .dark .panel { background:var(--bg-dark-card); border-color:rgba(255,255,255,.1); box-shadow:none; }
+    .bridge { display:grid; grid-template-columns:1fr 1.18fr 1fr; gap:18px; align-items:stretch; height:410px; }
+    .bridge-side { padding:30px; display:flex; flex-direction:column; justify-content:space-between; }
+    .bridge-side strong { font-size:27px; }
+    .bridge-side ul { margin:0; padding:0; list-style:none; display:grid; gap:13px; }
+    .bridge-side li { padding:12px 14px; background:var(--bg-light); border-radius:10px; font-size:16px; font-weight:700; }
+    .bridge-center { position:relative; display:grid; place-items:center; overflow:hidden; background:var(--bg-dark); color:white; border-radius:18px; }
+    .bridge-center svg { position:absolute; inset:0; width:100%; height:100%; }
+    .bridge-copy { position:relative; z-index:2; width:72%; text-align:center; }
+    .bridge-copy b { display:block; margin-bottom:11px; color:var(--primary); font-size:14px; letter-spacing:.12em; text-transform:uppercase; }
+    .bridge-copy strong { display:block; font-size:30px; line-height:1.12; }
+    .repo { display:grid; grid-template-columns:.86fr 1.55fr; gap:26px; height:418px; }
+    .tree { padding:27px 30px; background:var(--bg-dark); color:white; border-radius:18px; font-family:"SFMono-Regular",Consolas,monospace; }
+    .tree div { padding:8px 0; color:var(--text-light-muted); font-size:16px; }
+    .tree .root { color:white; font-weight:800; }
+    .tree .hot { color:var(--primary); }
+    .tree .cool { color:var(--accent); }
+    .repo-cards { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .repo-card { padding:26px; position:relative; }
+    .repo-card::before { content:""; display:block; width:36px; height:5px; margin-bottom:24px; background:var(--primary); border-radius:9px; }
+    .repo-card:nth-child(2)::before { background:var(--accent); }
+    .repo-card p { margin:0; color:var(--text-muted); font-size:17px; }
+    .matrix { display:grid; grid-template-columns:135px 1fr 1fr; grid-template-rows:48px 1fr 1fr; gap:12px; height:414px; }
+    .axis { display:grid; place-items:center; color:var(--text-muted); font-size:13px; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+    .cell { padding:22px 24px; border-radius:16px; border:1px solid var(--line); background:white; }
+    .cell.featured { border-color:var(--primary); background:var(--primary-light); }
+    .cell .tag { display:inline-block; margin-bottom:14px; padding:5px 9px; border-radius:99px; background:var(--bg-light); color:var(--text-muted); font-size:12px; font-weight:900; text-transform:uppercase; }
+    .cell.featured .tag { background:white; color:var(--primary); }
+    .cell p { margin:0; color:var(--text-muted); font-size:15px; }
+    .duo { display:grid; grid-template-columns:1fr 1fr; gap:24px; height:410px; }
+    .mode-card { position:relative; overflow:hidden; padding:34px; }
+    .mode-card .number { position:absolute; right:25px; top:18px; color:var(--line); font-size:78px; font-weight:900; line-height:1; }
+    .mode-card .mode-icon { width:68px; height:68px; margin-bottom:48px; border-radius:18px; display:grid; place-items:center; background:var(--primary-light); }
+    .mode-card .mode-icon svg { width:38px; height:38px; }
+    .mode-card:nth-child(2) .mode-icon { background:#e8f9fd; }
+    .mode-card p { max-width:430px; color:var(--text-muted); font-size:18px; }
+    .diamond-wrap { display:grid; grid-template-columns:1.6fr .8fr; gap:30px; height:408px; }
+    .diamond { position:relative; overflow:hidden; background:white; border:1px solid var(--line); border-radius:18px; }
+    .diamond svg { position:absolute; inset:38px 30px 72px; width:calc(100% - 60px); height:calc(100% - 110px); }
+    .diamond-labels { position:absolute; inset:0; }
+    .diamond-labels span { position:absolute; padding:7px 11px; background:white; border:1px solid var(--line); border-radius:9px; font-size:13px; font-weight:900; }
+    .diamond-labels .l1 { left:7%; top:46%; } .diamond-labels .l2 { left:35%; top:11%; } .diamond-labels .l3 { left:58%; top:70%; } .diamond-labels .l4 { right:6%; top:46%; }
+    .contract-list { display:grid; gap:14px; }
+    .contract-item { padding:18px 20px; background:white; border-left:5px solid var(--primary); border-radius:12px; box-shadow:0 8px 24px rgba(15,20,28,.06); }
+    .contract-item:nth-child(2) { border-color:var(--accent); }
+    .contract-item:nth-child(3) { border-color:var(--success); }
+    .contract-item b { display:block; margin-bottom:3px; font-size:16px; }
+    .contract-item span { color:var(--text-muted); font-size:14px; }
+    .pipeline { position:relative; display:grid; grid-template-columns:repeat(5,1fr); gap:16px; align-items:center; height:410px; }
+    .pipeline::before { content:""; position:absolute; left:9%; right:9%; top:50%; height:4px; background:var(--line); transform:translateY(-50%); }
+    .stage { position:relative; z-index:2; min-height:226px; padding:25px 20px; background:white; border:1px solid var(--line); border-radius:16px; box-shadow:0 10px 25px rgba(15,20,28,.06); }
+    .stage::after { content:""; position:absolute; left:20px; right:20px; bottom:-10px; height:10px; background:var(--primary); border-radius:0 0 8px 8px; }
+    .stage:nth-child(3)::after,.stage:nth-child(5)::after { background:var(--accent); }
+    .stage b { display:block; margin-bottom:22px; color:var(--primary); font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+    .stage strong { display:block; margin-bottom:10px; font-size:20px; }
+    .stage span { color:var(--text-muted); font-size:14px; line-height:1.35; }
+    .funnel-wrap { display:grid; grid-template-columns:1.42fr .72fr; gap:26px; height:410px; }
+    .funnel { position:relative; padding:25px; background:white; border:1px solid var(--line); border-radius:18px; }
+    .funnel-row { height:78px; margin:0 auto 10px; display:grid; place-items:center; color:white; font-weight:900; clip-path:polygon(7% 0,93% 0,85% 100%,15% 100%); }
+    .funnel-row:nth-child(1){ width:96%; background:#3f4b5c; }
+    .funnel-row:nth-child(2){ width:78%; background:#59677a; }
+    .funnel-row:nth-child(3){ width:60%; background:#69798e; }
+    .funnel-row:nth-child(4){ width:42%; background:var(--primary); }
+    .question-stack { display:grid; gap:14px; align-content:center; }
+    .question { padding:18px 20px; background:var(--bg-dark); color:white; border-radius:12px; font-size:17px; font-weight:800; }
+    .question em { color:var(--primary); font-style:normal; }
+    .platform { display:grid; grid-template-columns:1fr 90px 1fr; gap:12px; height:408px; align-items:center; }
+    .platform-card { height:100%; padding:28px; background:white; border:1px solid var(--line); border-radius:18px; }
+    .platform-card h3 { margin-bottom:24px; }
+    .platform-list { display:grid; gap:13px; }
+    .platform-list div { padding:13px 14px; background:var(--bg-light); border-radius:10px; font-size:15px; font-weight:750; }
+    .platform-link { position:relative; height:100%; }
+    .platform-link::before { content:""; position:absolute; left:50%; top:14%; bottom:14%; width:3px; background:var(--line); transform:translateX(-50%); }
+    .platform-link::after { content:""; position:absolute; left:50%; top:50%; width:22px; height:22px; border-radius:50%; background:var(--primary); box-shadow:0 0 0 10px var(--primary-light); transform:translate(-50%,-50%); }
+    .evidence { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; height:408px; align-items:center; }
+    .evidence-step { position:relative; min-height:250px; padding:28px 23px; background:white; border:1px solid var(--line); border-radius:16px; }
+    .evidence-step:not(:last-child)::after { content:""; position:absolute; z-index:2; right:-25px; top:50%; width:30px; height:3px; background:var(--primary); }
+    .evidence-step .disc { width:46px; height:46px; margin-bottom:35px; border-radius:50%; background:var(--primary-light); border:9px solid white; box-shadow:0 0 0 2px var(--primary); }
+    .evidence-step:nth-child(even) .disc { background:#e8f9fd; box-shadow:0 0 0 2px var(--accent); }
+    .evidence-step p { margin:0; color:var(--text-muted); font-size:15px; }
+    .cta-grid { display:grid; grid-template-columns:1.22fr .78fr; gap:34px; height:420px; }
+    .steps { display:grid; gap:15px; }
+    .next-step { display:grid; grid-template-columns:48px 1fr; gap:15px; align-items:center; padding:17px 19px; background:white; border:1px solid var(--line); border-radius:13px; }
+    .next-step b { display:grid; place-items:center; width:38px; height:38px; border-radius:50%; background:var(--primary); color:white; }
+    .next-step strong { display:block; margin-bottom:3px; font-size:17px; }
+    .next-step span { color:var(--text-muted); font-size:14px; }
+    .pilot { padding:31px; background:var(--bg-dark); color:white; border-radius:18px; display:flex; flex-direction:column; justify-content:space-between; }
+    .pilot .big { font-size:72px; font-weight:900; letter-spacing:-.06em; color:var(--primary); }
+    .pilot p { margin:0; color:var(--text-light-muted); font-size:17px; }
+    .qa { display:grid; grid-template-columns:1.2fr .8fr; gap:34px; align-items:center; height:100%; }
+    .qa h2 { font-size:68px; }
+    .qa-card { position:relative; height:430px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.12); border-radius:30px; background:var(--bg-dark-card); overflow:hidden; }
+    .qa-card .qmark { position:relative; z-index:2; font-size:210px; line-height:1; font-weight:900; color:var(--primary); }
+    .qa-card::before,.qa-card::after { content:""; position:absolute; border-radius:50%; border:1px solid rgba(0,192,243,.28); }
+    .qa-card::before { width:310px; height:310px; } .qa-card::after { width:470px; height:470px; }
+    .fragment { opacity:.14; transform:translateY(8px); transition:.2s ease; }
+    .fragment.visible { opacity:1; transform:none; }
+    .notes { display:none; }
+    #progress { position:fixed; z-index:80; left:0; bottom:0; height:4px; width:0; background:var(--primary); transition:width .2s ease; }
+    #controls { position:fixed; z-index:90; right:18px; bottom:18px; display:flex; align-items:center; gap:8px; padding:7px; border-radius:13px; background:rgba(15,20,28,.88); backdrop-filter:blur(10px); transition:.2s ease; }
+    #controls.hidden { opacity:0; pointer-events:none; }
+    #controls button { width:34px; height:34px; border:0; border-radius:8px; background:#283142; color:white; cursor:pointer; font-size:16px; font-weight:900; }
+    #controls button:hover { background:var(--primary); }
+    #counter { min-width:66px; color:white; text-align:center; font-size:12px; font-weight:900; letter-spacing:.06em; }
+    #help { position:fixed; z-index:95; left:18px; bottom:18px; padding:9px 13px; border-radius:10px; background:rgba(15,20,28,.84); color:white; font-size:11px; letter-spacing:.04em; }
+    body.grid-mode { overflow:auto; background:#111722; }
+    body.grid-mode .deck { height:auto; padding:28px; display:block; }
+    body.grid-mode .slide-container { width:auto; height:auto; transform:none !important; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; background:transparent; box-shadow:none; }
+    body.grid-mode .slide { position:relative; display:block; width:100%; height:auto; aspect-ratio:16/9; padding:18px; transform:none; cursor:pointer; box-shadow:0 12px 34px rgba(0,0,0,.3); }
+    body.grid-mode .slide * { pointer-events:none; }
+    body.grid-mode .slide h1,body.grid-mode .slide h2 { font-size:20px; }
+    body.grid-mode .slide h3,body.grid-mode .slide p,body.grid-mode .slide span,body.grid-mode .slide li,body.grid-mode .slide b,body.grid-mode .slide strong { font-size:7px; }
+    body.grid-mode .slide .bridge,body.grid-mode .slide .repo,body.grid-mode .slide .matrix,body.grid-mode .slide .duo,body.grid-mode .slide .diamond-wrap,body.grid-mode .slide .pipeline,body.grid-mode .slide .funnel-wrap,body.grid-mode .slide .platform,body.grid-mode .slide .evidence,body.grid-mode .slide .cta-grid { height:68%; }
+    body.grid-mode #controls,body.grid-mode #progress,body.grid-mode #help { display:none; }
+    #admin { position:fixed; z-index:100; inset:0; display:none; background:rgba(4,7,11,.76); backdrop-filter:blur(12px); }
+    #admin.open { display:grid; place-items:center; }
+    .admin-card { width:min(720px,90vw); padding:30px; border-radius:20px; background:white; box-shadow:var(--shadow); }
+    .admin-card h3 { font-size:26px; }
+    .admin-row { display:flex; flex-wrap:wrap; gap:10px; margin:15px 0 24px; }
+    .admin-row button { padding:10px 14px; border:1px solid var(--line); border-radius:9px; background:var(--bg-light); cursor:pointer; font-weight:800; }
+    .admin-row button:hover { border-color:var(--primary); color:var(--primary); }
+    .shortcuts { display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; color:var(--text-muted); font-size:14px; }
+    .shortcuts b { color:var(--text-dark); }
+    @media (max-width:700px) { #help { display:none; } }
+    @media print {
+      @page { size:13.333in 7.5in; margin:0; }
+      html,body { width:auto; height:auto; overflow:visible; background:white; }
+      .deck { display:block; }
+      .slide-container { width:auto; height:auto; transform:none !important; box-shadow:none; }
+      .slide { position:relative; display:block !important; width:13.333in; height:7.5in; break-after:page; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .fragment { opacity:1 !important; transform:none !important; }
+      #controls,#progress,#help,#admin { display:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <div class="slide-container" id="stage">
+      <section class="slide dark active" data-index="01" data-title="Reliable AI-Assisted Development in C++">
+        <div class="brand-mark"><i></i>Palo Alto Networks workshop</div>
+        <div style="position:absolute;left:68px;top:188px;z-index:2">
+          <p class="eyebrow">Theory briefing · 20 minutes</p>
+          <h1>Reliable AI-Assisted<br>Development in <span class="accent">C++</span></h1>
+          <p class="lead">Turn model output into scoped, testable engineering work.</p>
+        </div>
+        <div class="hero-orbit"></div><div class="hero-node"></div>
+        <div class="meta">TTPSC · October 2026</div>
+        <aside class="notes">Open with the promise: the session is about making AI useful inside real engineering constraints. The practical project starts immediately after this briefing.</aside>
+      </section>
+
+      <section class="slide white" data-index="02" data-title="Models propose; engineering systems verify">
+        <div class="section-head"><div><p class="eyebrow">Operating model</p><h2>Models propose; engineering systems verify</h2></div></div>
+        <div class="bridge">
+          <div class="bridge-side panel fragment"><strong>Probabilistic model</strong><ul><li>Proposes changes</li><li>Explores paths</li><li>Needs boundaries</li></ul></div>
+          <div class="bridge-center fragment">
+            <svg viewBox="0 0 420 410" aria-hidden="true"><path d="M20 205 C110 55 310 55 400 205 C310 355 110 355 20 205Z" fill="none" stroke="#00c0f3" stroke-width="3" opacity=".35"/><path d="M65 205 C135 100 285 100 355 205 C285 310 135 310 65 205Z" fill="none" stroke="#fa582d" stroke-width="5" opacity=".8"/></svg>
+            <div class="bridge-copy"><b>Engineering bridge</b><strong>Context · constraints · evidence</strong></div>
+          </div>
+          <div class="bridge-side panel fragment"><strong>Deterministic system</strong><ul><li>Builds targets</li><li>Runs checks</li><li>Produces proof</li></ul></div>
+        </div>
+        <aside class="notes">Avoid presenting the model as an autonomous engineer. Its value grows when we provide persistent context, constrain the task, and verify the result with the same engineering system used by the team.</aside>
+      </section>
+
+      <section class="slide" data-index="03" data-title="Team knowledge belongs in the repository">
+        <div class="section-head"><div><p class="eyebrow">Persistent context</p><h2>Team knowledge belongs in the repository</h2></div></div>
+        <div class="repo">
+          <div class="tree fragment">
+            <div class="root">product/</div><div>├── src/</div><div>├── tests/</div><div class="hot">├── AGENTS.md</div><div class="cool">├── CLAUDE.md</div><div>└── .agents/skills/</div>
+          </div>
+          <div class="repo-cards">
+            <article class="repo-card panel fragment"><h3>AGENTS.md</h3><p>Shared rules, commands, boundaries.</p></article>
+            <article class="repo-card panel fragment"><h3>CLAUDE.md</h3><p>Claude context and conventions.</p></article>
+            <article class="repo-card panel fragment"><h3>Skills</h3><p>Reusable build and test workflows.</p></article>
+            <article class="repo-card panel fragment"><h3>Source</h3><p>Versioned and reviewable.</p></article>
+          </div>
+        </div>
+        <aside class="notes">Explain the role, not the filename alone. Repository instructions capture durable policy. Skills capture repeatable procedures. Keep overlapping guidance consistent because different tools may read different files.</aside>
+      </section>
+
+      <section class="slide white" data-index="04" data-title="Each responsibility needs the right mechanism">
+        <div class="section-head"><div><p class="eyebrow">Mechanism selection</p><h2>Each responsibility needs the right mechanism</h2></div></div>
+        <div class="matrix">
+          <div></div><div class="axis">Advisory</div><div class="axis">Enforced</div>
+          <div class="axis">Persistent</div>
+          <article class="cell fragment"><span class="tag">Rules</span><h3>Repository instructions</h3></article>
+          <article class="cell featured fragment"><span class="tag">Hooks + CI</span><h3>Automated guardrails</h3></article>
+          <div class="axis">On demand</div>
+          <article class="cell fragment"><span class="tag">Skills</span><h3>Reusable procedures</h3></article>
+          <article class="cell fragment"><span class="tag">Task checks</span><h3>Explicit proof</h3></article>
+        </div>
+        <aside class="notes">A rule can guide behavior but cannot guarantee it. Use hooks and CI for requirements that must run. Use skills for procedures that are useful only in specific tasks or environments.</aside>
+      </section>
+
+      <section class="slide" data-index="05" data-title="Ponytail reduces code; Caveman reduces prose">
+        <div class="section-head"><div><p class="eyebrow">Interaction modes</p><h2>Ponytail reduces code; Caveman reduces prose</h2></div></div>
+        <div class="duo">
+          <article class="mode-card panel fragment"><div class="number">01</div><div class="mode-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 14h28M10 24h18M10 34h24" fill="none" stroke="#fa582d" stroke-width="5" stroke-linecap="round"/></svg></div><h3>Ponytail</h3><p>Prefer the smallest correct change, existing platform features, and one focused check.</p></article>
+          <article class="mode-card panel fragment"><div class="number">02</div><div class="mode-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 14h32M8 24h24M8 34h15" fill="none" stroke="#00c0f3" stroke-width="5" stroke-linecap="round"/></svg></div><h3>Caveman</h3><p>Compress communication into direct facts, decisions, commands, and evidence.</p></article>
+        </div>
+        <aside class="notes">Ponytail is an implementation discipline: minimal surface area, no speculative abstractions, no unnecessary dependencies. Caveman is a communication discipline: short, precise, technically complete messages.</aside>
+      </section>
+
+      <section class="slide white" data-index="06" data-title="A task contract removes unsafe assumptions">
+        <div class="section-head"><div><p class="eyebrow">Prompt to contract</p><h2>A task contract removes unsafe assumptions</h2></div></div>
+        <div class="diamond-wrap">
+          <div class="diamond fragment">
+            <svg viewBox="0 0 720 290" aria-hidden="true"><path d="M20 145 L205 25 L360 145 L515 25 L700 145 L515 265 L360 145 L205 265 Z" fill="none" stroke="#dce2e8" stroke-width="14" stroke-linejoin="round"/><path d="M20 145 L205 25 L360 145" fill="none" stroke="#00c0f3" stroke-width="10" stroke-linecap="round"/><path d="M360 145 L515 25 L700 145" fill="none" stroke="#fa582d" stroke-width="10" stroke-linecap="round"/></svg>
+            <div class="diamond-labels"><span class="l1">Problem</span><span class="l2">Explore</span><span class="l3">Converge</span><span class="l4">Evidence</span></div>
+          </div>
+          <div class="contract-list">
+            <div class="contract-item fragment"><b>Scope</b><span>Files, behavior, and explicit exclusions.</span></div>
+            <div class="contract-item fragment"><b>Constraints</b><span>Platforms, compatibility, security, and style.</span></div>
+            <div class="contract-item fragment"><b>Acceptance</b><span>Commands, expected results, and proof.</span></div>
+          </div>
+        </div>
+        <aside class="notes">Contrast “fix the parser” with a bounded task contract. A good contract names scope, constraints, acceptance criteria, and evidence. The model can then reason without inventing missing requirements.</aside>
+      </section>
+
+      <section class="slide" data-index="07" data-title="Jira can anchor the complete engineering loop">
+        <div class="section-head"><div><p class="eyebrow">Work orchestration</p><h2>Jira can anchor the complete engineering loop</h2></div></div>
+        <div class="pipeline">
+          <article class="stage fragment"><b>01 · Read</b><strong>Issue context</strong></article>
+          <article class="stage fragment"><b>02 · Refine</b><strong>Acceptance criteria</strong></article>
+          <article class="stage fragment"><b>03 · Build</b><strong>Repository change</strong></article>
+          <article class="stage fragment"><b>04 · Prove</b><strong>Observable result</strong></article>
+          <article class="stage fragment"><b>05 · Update</b><strong>Jira state</strong></article>
+        </div>
+        <aside class="notes">For Jira Cloud, Atlassian Rovo MCP can read and update Jira using the user's permissions. Jira Data Center usually needs REST API integration. Keep write actions reviewable and permission-scoped.</aside>
+      </section>
+
+      <section class="slide white" data-index="08" data-title="Narrow context before changing code">
+        <div class="section-head"><div><p class="eyebrow">Large codebase navigation</p><h2>Narrow context before changing code</h2></div></div>
+        <div class="funnel-wrap">
+          <div class="funnel fragment"><div class="funnel-row">Observed failure</div><div class="funnel-row">Owning repository</div><div class="funnel-row">Concrete execution path</div><div class="funnel-row">Minimal change</div></div>
+          <div class="question-stack">
+            <div class="question fragment"><em>Where</em> is the behavior owned?</div>
+            <div class="question fragment"><em>Which</em> value changes end to end?</div>
+            <div class="question fragment"><em>What</em> proves the fix?</div>
+          </div>
+        </div>
+        <aside class="notes">This is the practical answer to limited context windows. Do not load the whole 30-year codebase. Trace one failure, repository, execution path, and value until the smallest safe change becomes clear.</aside>
+      </section>
+
+      <section class="slide" data-index="09" data-title="Platform claims require platform evidence">
+        <div class="section-head"><div><p class="eyebrow">C++ platform reality</p><h2>Platform claims require platform evidence</h2></div></div>
+        <div class="platform">
+          <article class="platform-card fragment"><p class="eyebrow">GCC path</p><h3>Linux · x64</h3><div class="platform-list"><div>Compiler diagnostics</div><div>Sanitizers and tests</div><div>Runtime behavior</div></div></article>
+          <div class="platform-link"></div>
+          <article class="platform-card fragment"><p class="eyebrow">MSVC path</p><h3>Windows · x86 / x64</h3><div class="platform-list"><div>Solution configuration</div><div>Warnings and tests</div><div>Architecture-specific behavior</div></div></article>
+        </div>
+        <aside class="notes">A Linux build cannot prove an MSVC claim. A 64-bit test cannot prove 32-bit behavior. Encode repeatable GCC and MSVC workflows as skills, then report evidence for each claimed target.</aside>
+      </section>
+
+      <section class="slide white" data-index="10" data-title="Every success claim needs observable proof">
+        <div class="section-head"><div><p class="eyebrow">Evidence contract</p><h2>Every success claim needs observable proof</h2></div></div>
+        <div class="evidence">
+          <article class="evidence-step fragment"><div class="disc"></div><h3>Claim</h3><p>State exactly what now works.</p></article>
+          <article class="evidence-step fragment"><div class="disc"></div><h3>Command</h3><p>Record the reproducible check.</p></article>
+          <article class="evidence-step fragment"><div class="disc"></div><h3>Observation</h3><p>Capture output, artifact, or behavior.</p></article>
+          <article class="evidence-step fragment"><div class="disc"></div><h3>Boundary</h3><p>Name what remains unverified.</p></article>
+        </div>
+        <aside class="notes">Keep proof boundaries honest. Local tests, CI, review, deployment, and live behavior are distinct. A successful build proves compilation. It does not prove production behavior.</aside>
+      </section>
+
+      <section class="slide" data-index="11" data-title="Start with one bounded pilot task">
+        <div class="section-head"><div><p class="eyebrow">Next steps</p><h2>Start with one bounded pilot task</h2></div></div>
+        <div class="cta-grid">
+          <div class="steps">
+            <div class="next-step fragment"><b>1</b><div><strong>Select a defect</strong></div></div>
+            <div class="next-step fragment"><b>2</b><div><strong>Write the contract</strong></div></div>
+            <div class="next-step fragment"><b>3</b><div><strong>Capture knowledge</strong></div></div>
+            <div class="next-step fragment"><b>4</b><div><strong>Review evidence</strong></div></div>
+          </div>
+          <aside class="pilot fragment"><div><p class="eyebrow">Pilot principle</p><div class="big">1×</div><h3>One task. One proof loop.</h3></div><p>Improve from evidence, not enthusiasm.</p></aside>
+        </div>
+        <aside class="notes">The workshop itself follows this pilot model. We will take one real task, define a contract, solve it, collect evidence, and decide what belongs in repository instructions or reusable skills.</aside>
+      </section>
+
+      <section class="slide dark" data-index="12" data-title="Questions before we open the repository?">
+        <div class="qa">
+          <div><p class="eyebrow">Discussion</p><h2>Questions before we open the repository?</h2><p class="lead">Next: one real C++ task, one explicit contract, one evidence loop.</p></div>
+          <div class="qa-card"><div class="qmark">?</div></div>
+        </div>
+        <div class="meta">Reliable AI-Assisted Development in C++</div>
+        <aside class="notes">Keep questions short and connect them to the practical task. Then open the repository and move directly into discovery.</aside>
+      </section>
+    </div>
+  </main>
+
+  <div id="progress"></div>
+  <div id="help">←/→ navigate · G grid · T theme · F full screen · H controls · Alt+A admin</div>
+  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 12</span><button id="next" aria-label="Next slide">›</button></nav>
+
+  <div id="admin" aria-hidden="true">
+    <section class="admin-card">
+      <p class="eyebrow">Presentation admin</p><h3>Display and export</h3>
+      <div class="admin-row"><button data-theme-choice="paloalto">Palo Alto</button><button data-theme-choice="ocean">Ocean</button><button data-theme-choice="forest">Forest</button><button data-theme-choice="mono">Mono</button><button id="printDeck">Print / PDF</button><button id="closeAdmin">Close</button></div>
+      <div class="shortcuts"><span><b>← / →</b> navigate</span><span><b>Space</b> reveal fragment</span><span><b>G</b> grid view</span><span><b>F</b> full screen</span><span><b>H</b> hide controls</span><span><b>T</b> cycle themes</span><span><b>Home / End</b> first / last</span><span><b>Alt+A</b> admin panel</span></div>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const stage = document.getElementById('stage');
+      const progress = document.getElementById('progress');
+      const counter = document.getElementById('counter');
+      const controls = document.getElementById('controls');
+      const admin = document.getElementById('admin');
+      const themes = ['paloalto','ocean','forest','mono'];
+      let index = 0;
+
+      function fit() {
+        if (document.body.classList.contains('grid-mode')) return;
+        const scale = Math.min(innerWidth / 1280, innerHeight / 720);
+        stage.style.transform = `scale(${scale})`;
+      }
+      function fragments(slide = slides[index]) { return [...slide.querySelectorAll('.fragment')]; }
+      function show(next) {
+        index = Math.max(0, Math.min(slides.length - 1, next));
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        fragments().forEach(item => item.classList.remove('visible'));
+        counter.textContent = `${String(index + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        document.title = `${slides[index].dataset.title} · C++ workshop`;
+        history.replaceState(null, '', `#${index + 1}`);
+      }
+      function forward() {
+        const hidden = fragments().find(item => !item.classList.contains('visible'));
+        if (hidden) hidden.classList.add('visible'); else show(index + 1);
+      }
+      function back() {
+        const visible = fragments().filter(item => item.classList.contains('visible'));
+        if (visible.length) visible.at(-1).classList.remove('visible'); else show(index - 1);
+      }
+      function toggleGrid(force) {
+        const on = typeof force === 'boolean' ? force : !document.body.classList.contains('grid-mode');
+        document.body.classList.toggle('grid-mode', on);
+        stage.style.transform = '';
+        if (!on) fit();
+      }
+      function cycleTheme() {
+        const current = document.documentElement.dataset.theme;
+        document.documentElement.dataset.theme = themes[(themes.indexOf(current) + 1) % themes.length];
+      }
+      function toggleAdmin(force) {
+        const open = typeof force === 'boolean' ? force : !admin.classList.contains('open');
+        admin.classList.toggle('open', open); admin.setAttribute('aria-hidden', String(!open));
+      }
+      document.getElementById('prev').addEventListener('click', back);
+      document.getElementById('next').addEventListener('click', forward);
+      document.getElementById('closeAdmin').addEventListener('click', () => toggleAdmin(false));
+      document.getElementById('printDeck').addEventListener('click', () => window.print());
+      document.querySelectorAll('[data-theme-choice]').forEach(button => button.addEventListener('click', () => { document.documentElement.dataset.theme = button.dataset.themeChoice; }));
+      slides.forEach((slide, i) => slide.addEventListener('click', () => { if (document.body.classList.contains('grid-mode')) { toggleGrid(false); show(i); } }));
+      addEventListener('resize', fit);
+      addEventListener('keydown', event => {
+        if (event.altKey && event.key.toLowerCase() === 'a') { event.preventDefault(); toggleAdmin(); return; }
+        if (admin.classList.contains('open') && event.key === 'Escape') { toggleAdmin(false); return; }
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') { event.preventDefault(); forward(); }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); back(); }
+        if (event.key === 'Home') show(0);
+        if (event.key === 'End') show(slides.length - 1);
+        if (event.key.toLowerCase() === 'g') toggleGrid();
+        if (event.key === 'Escape' && document.body.classList.contains('grid-mode')) toggleGrid(false);
+        if (event.key.toLowerCase() === 'h') controls.classList.toggle('hidden');
+        if (event.key.toLowerCase() === 't') cycleTheme();
+        if (event.key.toLowerCase() === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+      });
+      index = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1) || 1) - 1));
+      fit(); show(index);
+    })();
+  </script>
+</body>
+</html>
