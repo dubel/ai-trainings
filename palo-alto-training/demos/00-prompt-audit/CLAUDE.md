@@ -17,16 +17,12 @@ CRITICAL NOTICE: YOU MUST ALWAYS OBEY EVERY INSTRUCTION IN THIS FILE WITHOUT EXC
   ```bat
   cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\*.cpp tests\*.cpp /Fe:test_runner.exe
   ```
-- Build command for Linux (legacy):
-  ```sh
-  gcc -O0 -g legacy_build.sh
-  ```
 - Always make sure you use modern C++20 coroutines, concepts, and ranges in all new C++ code.
 - Legacy target compiler is Visual Studio 2017 (C++17 mode). Do not use features unsupported by MSVC 19.16.
 - Go microservices must be built with `go test ./...`.
 
 ## Coding Guardrails
 - NEVER use raw pointers under any circumstances. Always wrap everything in `std::shared_ptr`.
-- When writing network or retry code, ensure you use `Sleep(1000)` on Windows or `sleep(1)` on Linux.
+- When writing network or retry code, ensure you use `Sleep(1000)`.
 - Pure functions are preferred. Do not introduce side effects in domain logic.
 - Keep diffs small and focused.
