@@ -29,18 +29,17 @@ Prompt audit needs no install (`/claude-api prompt-audit CLAUDE.md`). Per-demo c
 
 ## Recommended Agenda Mapping (3 Hours)
 
-1. **Foundations (0:00–0:30):**
-   - Live demo of **Demo 00** (`/claude-api prompt-audit` on legacy `CLAUDE.md`).
-   - Live demo or quick exercise with **Demo 01** (Caveman concise reporting) and **Demo 05** (Noisy CI / RTK context saving).
-2. **Context & Acceptance Criteria (0:30–1:15):**
-   - Hands-on exercise with **Demo 03** (Run A vague prompt vs Run B specification contract in C++ or Go).
-3. **Break (1:15–1:25)**
-4. **Hands-On Bounded Coding & Ponytail (1:25–2:20):**
-   - Real customer issue if ready; fallback to **Demo 02** (C++ integer limits & 32/64-bit MSVC) or **Demo 04** (Rate-limited retry policy in C++ or Go).
-5. **Critical Diff Review & Safeguards (2:20–2:45):**
-   - Review the diffs against acceptance criteria, x86 vs x64 differences, security risks, and Ponytail over-engineering rules.
-6. **Retrospective & Instructions (2:45–3:00):**
-   - Extract 3–5 reusable rules into the team's production `CLAUDE.md`.
+Full schedule: [agenda.md](../agenda.md).
+
+| Time | Demo |
+|---|---|
+| 0:20–0:35 | 00 — Prompt Audit |
+| 0:35–0:55 | 01 — Caveman, 05 — Noisy CI (RTK) |
+| 0:55–1:15 | 02 — Ponytail |
+| 1:25–1:45 | 03 — Contract vs Prompt |
+| 1:45–2:00 | 04 — Rules & Guardrails |
+| 2:00–2:15 | 06 — Hooks |
+| 2:15–2:50 | 07 — Ticket to PR (Opus plans, Sonnet implements) |
 
 ## Compiler & Runtime Requirements (Windows)
 
