@@ -11,7 +11,7 @@
 
 | Time | Session | Demo / material | Outcome |
 |---|---|---|---|
-| 0:00–0:20 | Theory briefing: models propose and engineering systems verify, repository instructions, mechanisms (rules, skills, hooks), task contracts, local multi-repo workspace with GitHub MCP, model routing, evidence. | `theory-presentation.html` (14 slides) | Shared vocabulary and the map for the demos. |
+| 0:00–0:20 | Theory briefing: models propose and engineering systems verify, repository instructions, mechanisms (rules, skills, hooks), task contracts, local multi-repo workspace with GitHub MCP, model routing, evidence. | `theory-presentation.html` (18 slides; skip the adoption ladder, cost anatomy, and safety slides if time is short) | Shared vocabulary and the map for the demos. |
 | 0:20–0:35 | Repository instructions: audit a `CLAUDE.md` and prune filler while keeping MSVC flags. | [Demo 00 — Prompt Audit](demos/00-prompt-audit/README.md) | One justified audit decision. |
 | 0:35–0:45 | Cost: concise status reports without evidence loss. | [Demo 01 — Caveman](demos/01-caveman/README.md) | Shorter reports that keep errors, targets, and unverified platforms. |
 | 0:45–0:55 | Context: filtering noisy build and test output before it reaches the model. | [Demo 02 — Noisy CI (RTK)](demos/02-noisy-ci-rtk/README.md) | Compact logs that keep the failing test, line, and summary. |
