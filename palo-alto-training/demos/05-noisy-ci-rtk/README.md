@@ -5,7 +5,7 @@
 ## Context: Legacy Builds & Test Suites
 
 In a 25-year-old C++ Windows codebase or Go microservice suite:
-- C++ compilers (MSVC/GCC) often dump hundreds of lines of template instantiation warnings or informational notes.
+- C++ compilers (MSVC/Clang) often dump hundreds of lines of template instantiation warnings or informational notes.
 - Test suites run 100+ passing tests before a single failure occurs.
 - If an engineer pastes or pipes the raw 150-line output into Claude Code, ~1,200+ tokens are consumed by noise. The model's attention is diffused across irrelevant passes.
 - A compact filter extracts only the failing test name, source line, expected vs actual values, and summary (~50 tokens).
