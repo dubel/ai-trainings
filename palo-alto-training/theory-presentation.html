@@ -225,7 +225,7 @@
             <article class="repo-card panel fragment"><h3>Prompt audit</h3><p><code>/claude-api prompt-audit</code></p></article>
           </div>
         </div>
-        <aside class="notes">Explain the role, not the filename alone. Repository instructions capture durable policy; skills capture repeatable procedures. In Claude Code, /claude-api prompt-audit checks instructions against the target model and returns a report plus a proposed diff. It does not apply the diff. It flags capitalized emphasis, rigid procedures, reasoning scaffolding, stale paths/commands, and contradicting instruction files. Since Claude Code v2.1.283, /doctor prompt-audit runs it on all loaded CLAUDE.md, AGENTS.md, rules, skills, commands, and agents. Review each finding against the project's real C++ build commands, platform constraints, and safety rules. A clean audit is acceptable. Source: https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md</aside>
+        <aside class="notes">Repository instructions hold durable rules; skills hold repeatable procedures. /claude-api prompt-audit CLAUDE.md returns a report and a proposed diff and does not edit files. It flags capitalized emphasis, step-by-step scaffolding, stale paths and commands, and contradicting instructions. Check each finding against the real build commands and platform constraints before accepting it. A clean audit is a valid result.</aside>
       </section>
 
       <section class="slide white" data-index="04" data-title="Each responsibility needs the right mechanism">
@@ -247,18 +247,14 @@
         <div class="duo">
           <article class="mode-card panel fragment"><div class="sample-label">Implementation</div><h3>Ponytail</h3><pre><code>return offset &lt;= capacity &amp;&amp;
        count &lt;= capacity - offset;</code></pre><p class="sample-note">No new type or dependency. Run focused test.</p></article>
-          <article class="mode-card panel fragment"><div class="sample-label">Status update</div><h3>Caveman</h3><p class="sample-status">arm64: 2 failures.<br><code>SIZE_MAX</code> wrap; 64→32 truncation.</p><p class="sample-note">32-bit / MSVC: not run.</p></article>
+          <article class="mode-card panel fragment"><div class="sample-label">Status update</div><h3>Caveman</h3><p class="sample-status">x64: 2 failures.<br><code>SIZE_MAX</code> wrap; 64→32 truncation.</p><p class="sample-note">32-bit / MSVC: not run.</p></article>
         </div>
         <aside class="notes">These examples are packaged in demos/01-caveman/ and demos/02-ponytail/. Demo 01 uses saved range-check test output to show concise status without losing failures or unverified platforms. Demo 02 uses a runnable C++ regression test and a one-expression fix. Both include pasteable prompts for use without installed skills. These are custom instructions, not built-in Claude commands. Prompt audit remains the separate repository-instruction exercise.</aside>
       </section>
 
       <section class="slide white" data-index="06" data-title="A task contract removes unsafe assumptions">
         <div class="section-head"><div><p class="eyebrow">Prompt to contract</p><h2>A task contract removes unsafe assumptions</h2></div></div>
-        <div class="diamond-wrap">
-          <div class="diamond fragment">
-            <svg viewBox="0 0 720 290" aria-hidden="true"><path d="M20 145 L205 25 L360 145 L515 25 L700 145 L515 265 L360 145 L205 265 Z" fill="none" stroke="#dce2e8" stroke-width="14" stroke-linejoin="round"/><path d="M20 145 L205 25 L360 145" fill="none" stroke="#00c0f3" stroke-width="10" stroke-linecap="round"/><path d="M360 145 L515 25 L700 145" fill="none" stroke="#fa582d" stroke-width="10" stroke-linecap="round"/></svg>
-            <div class="diamond-labels"><span class="l1">Problem</span><span class="l2">Explore</span><span class="l3">Converge</span><span class="l4">Evidence</span></div>
-          </div>
+        <div class="diamond-wrap" style="grid-template-columns:1fr;height:auto">
           <div class="contract-list">
             <div class="contract-item fragment"><b>Scope</b><span>Files, behavior, and explicit exclusions.</span></div>
             <div class="contract-item fragment"><b>Constraints</b><span>Platforms, compatibility, security, and style.</span></div>
@@ -318,11 +314,11 @@
       <section class="slide" data-index="11" data-title="Platform claims require platform evidence">
         <div class="section-head"><div><p class="eyebrow">C++ platform reality</p><h2>Platform claims require platform evidence</h2></div></div>
         <div class="platform">
-          <article class="platform-card fragment"><p class="eyebrow">GCC path</p><h3>Linux · x64</h3><div class="platform-list"><div>Compiler diagnostics</div><div>Sanitizers and tests</div><div>Runtime behavior</div></div></article>
+          <article class="platform-card fragment"><p class="eyebrow">32-bit</p><h3>Windows · x86</h3><div class="platform-list"><div>32-bit size_t and pointers</div><div>Integer truncation and overflow</div><div>Warnings and tests on x86</div></div></article>
           <div class="platform-link"></div>
-          <article class="platform-card fragment"><p class="eyebrow">MSVC path</p><h3>Windows · x86 / x64</h3><div class="platform-list"><div>Solution configuration</div><div>Warnings and tests</div><div>Architecture-specific behavior</div></div></article>
+          <article class="platform-card fragment"><p class="eyebrow">64-bit</p><h3>Windows · x64</h3><div class="platform-list"><div>64-bit size_t and pointers</div><div>MSVC /W4 and unit tests</div><div>Narrowing from size_t</div></div></article>
         </div>
-        <aside class="notes">A Linux build cannot prove an MSVC claim. A 64-bit test cannot prove 32-bit behavior. Encode repeatable GCC and MSVC workflows as skills, then report evidence for each claimed target.</aside>
+        <aside class="notes">A 64-bit test cannot prove 32-bit behavior, and one compiler cannot prove another. Report evidence for each target you claim, and name the targets you did not run. Encode the repeatable x86 and x64 build and test commands as a skill.</aside>
       </section>
 
       <section class="slide white" data-index="12" data-title="Every success claim needs observable proof">
@@ -338,14 +334,13 @@
 
       <section class="slide" data-index="13" data-title="Start with one bounded pilot task">
         <div class="section-head"><div><p class="eyebrow">Next steps</p><h2>Start with one bounded pilot task</h2></div></div>
-        <div class="cta-grid">
+        <div class="cta-grid" style="grid-template-columns:1fr;height:auto">
           <div class="steps">
             <div class="next-step fragment"><b>1</b><div><strong>Select a defect</strong></div></div>
             <div class="next-step fragment"><b>2</b><div><strong>Write the contract</strong></div></div>
             <div class="next-step fragment"><b>3</b><div><strong>Capture knowledge</strong></div></div>
             <div class="next-step fragment"><b>4</b><div><strong>Review evidence</strong></div></div>
           </div>
-          <aside class="pilot fragment"><div><p class="eyebrow">Pilot principle</p><div class="big">1×</div><h3>One task. One proof loop.</h3></div><p>Improve from evidence, not enthusiasm.</p></aside>
         </div>
         <aside class="notes">The workshop itself follows this pilot model. We will take one real task, define a contract, solve it, collect evidence, and decide what belongs in repository instructions or reusable skills.</aside>
       </section>
