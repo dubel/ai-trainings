@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File hooks/guard-bash.ps1" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File hooks/check-32-64.ps1" },
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File hooks/syntax-check.ps1" }
+        ]
+      }
+    ]
+  }
+}
