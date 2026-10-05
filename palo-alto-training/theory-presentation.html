@@ -144,6 +144,31 @@
     .qa-card .qmark { position:relative; z-index:2; font-size:210px; line-height:1; font-weight:900; color:var(--primary); }
     .qa-card::before,.qa-card::after { content:""; position:absolute; border-radius:50%; border:1px solid rgba(0,192,243,.28); }
     .qa-card::before { width:310px; height:310px; } .qa-card::after { width:470px; height:470px; }
+    .story { display:grid; grid-template-columns:1fr 1fr; gap:24px; height:410px; }
+    .code-panel { padding:26px 28px; display:flex; flex-direction:column; }
+    .code-panel .label { margin-bottom:14px; color:var(--primary); font-size:13px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .code-panel pre { margin:0; padding:20px; white-space:pre-wrap; background:var(--bg-dark); color:white; border-radius:12px; font-family:"SFMono-Regular",Consolas,monospace; font-size:16px; line-height:1.6; }
+    .code-panel .ok { color:#6be3b0; } .code-panel .bad { color:#ff8a6b; } .code-panel .dim { color:var(--text-light-muted); }
+    .code-panel .note { margin:18px 0 0; color:var(--text-muted); font-size:17px; }
+    .levels { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; align-items:end; height:340px; }
+    .level { padding:22px 20px; background:white; border:1px solid var(--line); border-top:6px solid var(--primary); border-radius:16px; }
+    .level:nth-child(1) { height:50%; } .level:nth-child(2) { height:62%; } .level:nth-child(3) { height:74%; } .level:nth-child(4) { height:87%; } .level:nth-child(5) { height:100%; }
+    .level:nth-child(even) { border-top-color:var(--accent); }
+    .level b { display:block; margin-bottom:10px; color:var(--primary); font-size:13px; letter-spacing:.1em; text-transform:uppercase; }
+    .level strong { display:block; margin-bottom:8px; font-size:20px; }
+    .level span { color:var(--text-muted); font-size:15px; line-height:1.35; }
+    .footnote { margin:22px 0 0; color:var(--text-muted); font-size:17px; }
+    .toolcards { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; height:420px; }
+    .toolcard { padding:22px; display:flex; flex-direction:column; overflow:hidden; }
+    .toolcard .art { height:132px; margin-bottom:16px; border-radius:12px; display:grid; place-items:center; overflow:hidden; background:var(--bg-light); }
+    .toolcard .art img { display:block; max-width:100%; max-height:124px; width:auto; height:auto; object-fit:contain; }
+    .toolcard .art.black { background:#000; }
+    .toolcard .art code { padding:0 16px; font-size:19px; font-weight:800; line-height:1.5; text-align:center; }
+    .toolcard h3 { margin-bottom:6px; font-size:25px; }
+    .toolcard p { margin:0 0 10px; color:var(--text-muted); font-size:16px; line-height:1.4; }
+    .toolcard .stat { padding:10px 12px; background:var(--primary-light); border-radius:10px; color:var(--text-dark); font-size:14px; font-weight:750; line-height:1.35; }
+    .toolcard .tag { margin-top:auto; padding-top:10px; color:var(--primary); font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    body.grid-mode .slide .story,body.grid-mode .slide .levels,body.grid-mode .slide .toolcards { height:68%; }
     .fragment { opacity:.14; transform:translateY(8px); transition:.2s ease; }
     .fragment.visible { opacity:1; transform:none; }
     .notes { display:none; }
@@ -199,7 +224,25 @@
         <aside class="notes">Open with the promise: the session is about making AI useful inside real engineering constraints. The live demos start immediately after this briefing.</aside>
       </section>
 
-      <section class="slide white" data-index="02" data-title="Models propose; engineering systems verify">
+      <section class="slide dark" data-index="02" data-title="Green on one target is not done">
+        <div class="brand-mark"><i></i>The story</div>
+        <div style="position:absolute;left:68px;top:92px;right:68px;z-index:2">
+          <p class="eyebrow">An AI wrote the range check</p>
+          <h2>Green on one target is not done</h2>
+        </div>
+        <div class="story" style="position:absolute;left:68px;right:68px;top:222px">
+          <article class="code-panel panel fragment"><div class="label">The generated check</div><pre><span class="dim">// can_copy(offset, count, capacity)</span>
+return static_cast&lt;std::uint32_t&gt;(offset + count)
+       &lt;= capacity;</pre><p class="note" style="color:var(--text-light-muted)">Ordinary ranges pass. Reviewers see a clean diff.</p></article>
+          <article class="code-panel panel fragment"><div class="label">The saved test result</div><pre><span class="bad">FAIL: addition wraps at SIZE_MAX
+FAIL: 64-bit offset truncated to 32 bits</span>
+<span class="dim">2 check(s) failed on 64-bit size_t</span>
+<span class="ok">32-bit and MSVC builds: not run</span></pre><p class="note" style="color:var(--text-light-muted)">The defect lives at the edges and on other targets.</p></article>
+        </div>
+        <aside class="notes">This is the bug in Demo 03 and the saved output in Demo 01. The point is not that the model is bad at C++. The point is that an ordinary test set passes, and the defect appears only at SIZE_MAX and when a 64-bit offset is narrowed to 32 bits. Ask the room how many of them would have caught it in review. Then state the rule for the rest of the session: every claim names the target it was run on, and every unrun target is listed.</aside>
+      </section>
+
+      <section class="slide white" data-index="03" data-title="Models propose; engineering systems verify">
         <div class="section-head"><div><p class="eyebrow">Operating model</p><h2>Models propose; engineering systems verify</h2></div></div>
         <div class="bridge">
           <div class="bridge-side panel fragment"><strong>Probabilistic model</strong><ul><li>Proposes changes</li><li>Explores paths</li><li>Needs boundaries</li></ul></div>
@@ -212,7 +255,20 @@
         <aside class="notes">Avoid presenting the model as an autonomous engineer. Its value grows when we provide persistent context, constrain the task, and verify the result with the same engineering system used by the team.</aside>
       </section>
 
-      <section class="slide" data-index="03" data-title="Team knowledge belongs in the repository">
+      <section class="slide white" data-index="04" data-title="Where are we on the adoption ladder?">
+        <div class="section-head"><div><p class="eyebrow">Adoption levels</p><h2>Where are we on the adoption ladder?</h2></div></div>
+        <div class="levels">
+          <article class="level fragment"><b>1 · Prompting</b><strong>Answer</strong><span>You ask, you judge every reply.</span></article>
+          <article class="level fragment"><b>2 · Assisted coding</b><strong>Edit</strong><span>The model prepares a bounded code change.</span></article>
+          <article class="level fragment"><b>3 · Agentic coding</b><strong>Task</strong><span>The agent runs a whole engineering task.</span></article>
+          <article class="level fragment"><b>4 · Spec-driven</b><strong>Contract</strong><span>The agent implements a specification with acceptance criteria.</span></article>
+          <article class="level fragment"><b>5 · Bounded autonomy</b><strong>Process</strong><span>The agent runs part of a recurring process within guardrails.</span></article>
+        </div>
+        <p class="footnote fragment">The level is per process: bounded autonomy for test generation can sit next to assisted coding for security-sensitive changes.</p>
+        <aside class="notes">Skip this slide if time is short. It is a workshop model, not an industry standard. Maturity comes from a repeatable process, a controlled decision scope, and evidence, not from buying access to a model. Ask each person which level their last real task was at.</aside>
+      </section>
+
+      <section class="slide" data-index="05" data-title="Team knowledge belongs in the repository">
         <div class="section-head"><div><p class="eyebrow">Persistent context</p><h2>Team knowledge belongs in the repository</h2></div></div>
         <div class="repo">
           <div class="tree fragment">
@@ -228,7 +284,7 @@
         <aside class="notes">Repository instructions hold durable rules; skills hold repeatable procedures. /claude-api prompt-audit CLAUDE.md returns a report and a proposed diff and does not edit files. It flags capitalized emphasis, step-by-step scaffolding, stale paths and commands, and contradicting instructions. Check each finding against the real build commands and platform constraints before accepting it. A clean audit is a valid result.</aside>
       </section>
 
-      <section class="slide white" data-index="04" data-title="Each responsibility needs the right mechanism">
+      <section class="slide white" data-index="06" data-title="Each responsibility needs the right mechanism">
         <div class="section-head"><div><p class="eyebrow">Mechanism selection</p><h2>Each responsibility needs the right mechanism</h2></div></div>
         <div class="matrix">
           <div></div><div class="axis">Advisory</div><div class="axis">Enforced</div>
@@ -242,17 +298,32 @@
         <aside class="notes">A rule can guide behavior but cannot guarantee it. Use hooks and CI for requirements that must run. Use skills for procedures that are useful only in specific tasks or environments.</aside>
       </section>
 
-      <section class="slide" data-index="05" data-title="One defect, two useful constraints">
-        <div class="section-head"><div><p class="eyebrow">Applied example</p><h2>One defect, two useful constraints</h2></div></div>
-        <div class="duo">
-          <article class="mode-card panel fragment"><div class="sample-label">Implementation</div><h3>Ponytail</h3><pre><code>return offset &lt;= capacity &amp;&amp;
-       count &lt;= capacity - offset;</code></pre><p class="sample-note">No new type or dependency. Run focused test.</p></article>
-          <article class="mode-card panel fragment"><div class="sample-label">Status update</div><h3>Caveman</h3><p class="sample-status">x64: 2 failures.<br><code>SIZE_MAX</code> wrap; 64→32 truncation.</p><p class="sample-note">32-bit / MSVC: not run.</p></article>
+      <section class="slide white" data-index="07" data-title="Three controls for cost, context, and effort">
+        <div class="section-head"><div><p class="eyebrow">The tools you will use</p><h2>Three controls for cost, context, and effort</h2></div></div>
+        <div class="toolcards">
+          <article class="toolcard panel fragment">
+            <div class="art"><code>131 lines → 6<br>~1,250 → ~56 tokens</code></div>
+            <h3>RTK</h3><p>Filters noisy build and test output before it reaches the model.</p>
+            <div class="stat">Demo 02 simulated run: the failing test, its line, and the summary survive.</div>
+            <div class="tag">Demo 02 · Noisy CI</div>
+          </article>
+          <article class="toolcard panel fragment">
+            <div class="art black"><img src="assets/caveman/caveman-logo-banner.png" alt="Caveman logo"></div>
+            <h3>Caveman</h3><p>Terse replies that keep errors, targets, and unverified platforms.</p>
+            <div class="stat">A communication style from a plugin, not a built-in Claude command. <code>/caveman</code></div>
+            <div class="tag">Demo 01 · Caveman</div>
+          </article>
+          <article class="toolcard panel fragment">
+            <div class="art"><img src="assets/ponytail/logo-small.png" alt="Ponytail mascot"></div>
+            <h3>Ponytail</h3><p>The smallest correct change: reuse, standard library, one check.</p>
+            <div class="stat">The project reports 54% fewer lines, 22% fewer tokens, 20% lower cost (12 tasks, Haiku 4.5, n=4).</div>
+            <div class="tag">Demo 03 · Ponytail</div>
+          </article>
         </div>
-        <aside class="notes">These examples are packaged in demos/01-caveman/ and demos/03-ponytail/. Demo 01 uses saved range-check test output to show concise status without losing failures or unverified platforms. Demo 03 uses a runnable C++ regression test and a one-expression fix. Both include pasteable prompts for use without installed skills. These are custom instructions, not built-in Claude commands. Prompt audit remains the separate repository-instruction exercise.</aside>
+        <aside class="notes">RTK, Caveman and Ponytail are specific tools, not built-in Claude features. The RTK figures come from the Demo 02 simulation (131 lines and about 1,250 tokens versus 6 lines and about 56 tokens), not from a measured customer log. The Ponytail numbers are the project own benchmark on a small sample, so call them vendor claims and tell the team to measure on their own tasks. Mascot and logo images are used under the MIT licenses in assets/.</aside>
       </section>
 
-      <section class="slide white" data-index="06" data-title="A task contract removes unsafe assumptions">
+      <section class="slide white" data-index="08" data-title="A task contract removes unsafe assumptions">
         <div class="section-head"><div><p class="eyebrow">Prompt to contract</p><h2>A task contract removes unsafe assumptions</h2></div></div>
         <div class="diamond-wrap" style="grid-template-columns:1fr;height:auto">
           <div class="contract-list">
@@ -264,7 +335,7 @@
         <aside class="notes">Contrast “fix the parser” with a bounded task contract. A good contract names scope, constraints, acceptance criteria, and evidence. The model can then reason without inventing missing requirements.</aside>
       </section>
 
-      <section class="slide" data-index="07" data-title="Jira can anchor the complete engineering loop">
+      <section class="slide" data-index="09" data-title="Jira can anchor the complete engineering loop">
         <div class="section-head"><div><p class="eyebrow">Work orchestration</p><h2>Jira can anchor the complete engineering loop</h2></div></div>
         <div class="pipeline">
           <article class="stage fragment"><b>01 · Read</b><strong>Issue context</strong></article>
@@ -276,7 +347,7 @@
         <aside class="notes">For Jira Cloud, Atlassian Rovo MCP can read and update Jira using the user's permissions. Jira Data Center usually needs REST API integration. Keep write actions reviewable and permission-scoped.</aside>
       </section>
 
-      <section class="slide white" data-index="08" data-title="Narrow context before changing code">
+      <section class="slide white" data-index="10" data-title="Narrow context before changing code">
         <div class="section-head"><div><p class="eyebrow">Large codebase navigation</p><h2>Narrow context before changing code</h2></div></div>
         <div class="funnel-wrap">
           <div class="funnel fragment"><div class="funnel-row">Observed failure</div><div class="funnel-row">Owning repository</div><div class="funnel-row">Concrete execution path</div><div class="funnel-row">Minimal change</div></div>
@@ -289,7 +360,7 @@
         <aside class="notes">This is the practical answer to limited context windows. Do not load the whole 30-year codebase. Trace one failure, repository, execution path, and value until the smallest safe change becomes clear.</aside>
       </section>
 
-      <section class="slide" data-index="09" data-title="Keep code local; use MCP for team context">
+      <section class="slide" data-index="11" data-title="Keep code local; use MCP for team context">
         <div class="section-head"><div><p class="eyebrow">Multi-repository work</p><h2>Keep code local; use MCP for team context</h2></div></div>
         <div class="platform">
           <article class="platform-card fragment"><p class="eyebrow">Local workspace</p><h3>The 4–5 repositories on disk</h3><div class="platform-list"><div>Search and symbol navigation</div><div>Cross-repository edits</div><div>Compiler and test runs</div></div></article>
@@ -299,7 +370,7 @@
         <aside class="notes">Reading local files costs no remote calls, and only local source can be compiled and tested. Use GitHub MCP for what lives outside the workspace: issues, pull requests, review comments, CI status, and as a fallback for a sixth repository that is not checked out. Keep write actions such as opening a PR reviewable and permission-scoped. Setup and tool list: GITHUB-MCP.md.</aside>
       </section>
 
-      <section class="slide white" data-index="10" data-title="Match the model to the step">
+      <section class="slide white" data-index="12" data-title="Match the model to the step">
         <div class="section-head"><div><p class="eyebrow">Model routing</p><h2>Match the model to the step</h2></div></div>
         <div class="pipeline">
           <article class="stage fragment"><b>01 · Ticket</b><strong>You</strong><span>Criteria and scope</span></article>
@@ -311,7 +382,7 @@
         <aside class="notes">Opus 5.5 lists at $4 input and $20 output per million tokens; Sonnet 5.5 at $2 and $10, so half per token. Sonnet 5.5 is positioned for well-scoped everyday coding, which is what an approved spec is. No source we found measures Opus against Sonnet on the same task, so treat savings as unproven and have the team run one ticket both ways. In Claude Code: /model opusplan uses Opus in plan mode and Sonnet in execution, or set model in a skill's frontmatter as Demo 07 does. Escalate to Opus when Sonnet fails the same problem three times. Details and sources: MODEL-ROUTING.md.</aside>
       </section>
 
-      <section class="slide" data-index="11" data-title="Platform claims require platform evidence">
+      <section class="slide" data-index="13" data-title="Platform claims require platform evidence">
         <div class="section-head"><div><p class="eyebrow">C++ platform reality</p><h2>Platform claims require platform evidence</h2></div></div>
         <div class="platform">
           <article class="platform-card fragment"><p class="eyebrow">32-bit</p><h3>Windows · x86</h3><div class="platform-list"><div>32-bit size_t and pointers</div><div>Integer truncation and overflow</div><div>Warnings and tests on x86</div></div></article>
@@ -321,7 +392,7 @@
         <aside class="notes">A 64-bit test cannot prove 32-bit behavior, and one compiler cannot prove another. Report evidence for each target you claim, and name the targets you did not run. Encode the repeatable x86 and x64 build and test commands as a skill.</aside>
       </section>
 
-      <section class="slide white" data-index="12" data-title="Every success claim needs observable proof">
+      <section class="slide white" data-index="14" data-title="Every success claim needs observable proof">
         <div class="section-head"><div><p class="eyebrow">Evidence contract</p><h2>Every success claim needs observable proof</h2></div></div>
         <div class="evidence">
           <article class="evidence-step fragment"><div class="disc"></div><h3>Claim</h3><p>State exactly what now works.</p></article>
@@ -332,7 +403,7 @@
         <aside class="notes">Keep proof boundaries honest. Local tests, CI, review, deployment, and live behavior are distinct. A successful build proves compilation. It does not prove production behavior.</aside>
       </section>
 
-      <section class="slide" data-index="13" data-title="Start with one bounded pilot task">
+      <section class="slide" data-index="15" data-title="Start with one bounded pilot task">
         <div class="section-head"><div><p class="eyebrow">Next steps</p><h2>Start with one bounded pilot task</h2></div></div>
         <div class="cta-grid" style="grid-template-columns:1fr;height:auto">
           <div class="steps">
@@ -345,7 +416,7 @@
         <aside class="notes">These are the steps to take back to your own work after the demos: pick one bounded task, write the contract, run it with Claude Code, and keep what worked in repository instructions or skills.</aside>
       </section>
 
-      <section class="slide dark" data-index="14" data-title="Questions before the demos?">
+      <section class="slide dark" data-index="16" data-title="Questions before the demos?">
         <div class="qa">
           <div><p class="eyebrow">Discussion</p><h2>Questions before the demos?</h2><p class="lead">Next: live Claude Code demos on C++ and Go examples, from prompt audit to ticket-to-PR.</p></div>
           <div class="qa-card"><div class="qmark">?</div></div>
@@ -358,7 +429,7 @@
 
   <div id="progress"></div>
   <div id="help">←/→ navigate · G grid · T theme · F full screen · H controls · Alt+A admin</div>
-  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 14</span><button id="next" aria-label="Next slide">›</button></nav>
+  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 16</span><button id="next" aria-label="Next slide">›</button></nav>
 
   <div id="admin" aria-hidden="true">
     <section class="admin-card">
