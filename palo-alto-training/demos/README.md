@@ -38,7 +38,7 @@ Prompt audit needs no install (`/claude-api prompt-audit CLAUDE.md`). Per-demo c
 4. **Hands-On Bounded Coding & Ponytail (1:25–2:20):**
    - Real customer issue if ready; fallback to **Demo 02** (C++ integer limits & 32/64-bit MSVC) or **Demo 04** (Rate-limited retry policy in C++ or Go).
 5. **Critical Diff Review & Safeguards (2:20–2:45):**
-   - Review the diffs against acceptance criteria, LLP64 vs LP64 differences, security risks, and Ponytail over-engineering rules.
+   - Review the diffs against acceptance criteria, x86 vs x64 differences, security risks, and Ponytail over-engineering rules.
 6. **Retrospective & Instructions (2:45–3:00):**
    - Extract 3–5 reusable rules into the team's production `CLAUDE.md`.
 
