@@ -1,9 +1,11 @@
-Time	Project Work	Outcome
-0:00–0:10	Issue & starting point. Establish symptoms, expected behavior, and reproduction steps.	One concrete task and verification method.
-0:10–0:30	Foundations on the same task: `CLAUDE.md`, `AGENTS.md`, Ponytail, and Caveman. Run `/claude-api prompt-audit` on the team's `CLAUDE.md` (or fallback sample in `demos/00-prompt-audit`), review the report and proposed diff. Preserve project rules and MSVC flags; do not accept changes blindly.	Minimal repository instructions, skill usage example, and one justified audit decision.
-0:30–0:55	Provide Claude only necessary context: documentation excerpt, code path, cross-repo dependencies in local workspace (4–5 local repos to avoid remote token burn), and build/test commands. Use GitHub MCP for PRs/issues/CI.	Focused task map, working instruction set for Claude, and multi-repo workspace navigation.
-0:55–1:15	Derive acceptance criteria and change plan from Jira and documentation: input/output behavior, edge cases, platforms, tests, and risks.	Acceptance criteria and verification checklist.
-1:15–1:25	Break.	
-1:25–2:20	Implement a small change with Claude using the Ponytail rule. Inspect the diff, update code and tests, run build and test commands. For x86/x64 tasks, verify type widths, integer conversions, and behavior on available targets.	Code change or clearly identified blocker, with verified test results.
-2:20–2:45	Critical diff review: incorrect assumptions, regressions, security risks, edge cases, and criteria compliance. Resolve findings and rerun affected tests.	Findings list, refined diff, and verification evidence.
-2:45–3:00	Synthesize 3–5 rules that helped during the task into repository instructions (`CLAUDE.md`) or a concise checklist. Identify remaining items before PR.	Reusable guidance and concrete next steps.
+Time	Session	Outcome
+0:00–0:20	Theory briefing: models propose and engineering systems verify, repository instructions, mechanisms (rules, skills, hooks), task contracts, local multi-repo workspace with GitHub MCP, model routing, evidence (theory-presentation.html).	Shared vocabulary and the map for the demos.
+0:20–0:35	Demo 00 — Prompt Audit: audit a CLAUDE.md and prune filler while keeping MSVC flags.	One justified audit decision.
+0:35–0:55	Demo 01 — Caveman and Demo 05 — Noisy CI (RTK): concise status reports and filtered build output.	Shorter reports and compact logs that keep errors, targets, and unverified platforms.
+0:55–1:15	Demo 02 — Ponytail: smallest correct fix for a 32-bit/64-bit range-check bug.	A minimal fix with test evidence per target.
+1:15–1:25	Break.
+1:25–1:45	Demo 03 — Contract vs Prompt: the same task with a vague prompt and with a contract (C++ or Go).	A task contract template.
+1:45–2:00	Demo 04 — Rules & Guardrails: plan tests first and keep domain logic pure.	Repository rules that Claude follows.
+2:00–2:15	Demo 06 — Hooks: block destructive commands; flag x86/x64 and syntax problems after every edit.	One hook the team could adopt.
+2:15–2:50	Demo 07 — Ticket to PR: ticket, spec on Opus, implementation on Sonnet in a fresh context, verification, adversarial review (see MODEL-ROUTING.md).	A reusable loop and a model-routing rule to test.
+2:50–3:00	Wrap-up: pick 3–5 rules for the team's CLAUDE.md, choose one real task for the loop, share READING-LIST.md.	Concrete next steps.
