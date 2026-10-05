@@ -13,6 +13,18 @@ The exercises specifically target the team's stack: **C++17 on Windows (MSVC)** 
 | [04 — Rules & Guardrails](04-rules-and-guardrails/README.md) | C++ & Go | Exponential retry policy, unit tests, `CLAUDE.md` rules | **Bounded Refactoring:** Enforce pure domain logic in legacy systems. Prevent Claude from hallucinating `Sleep()`, threads, or I/O into business calculations. Plan tests first. |
 | [05 — Noisy CI (RTK)](05-noisy-ci-rtk/README.md) | C++ & Go | Simulated test runner, line/token comparison, fixtures | **Context Optimization:** Filter verbose compiler warnings and passing test noise before they exhaust Claude's context window. |
 
+## One-time setup (each participant, inside Claude Code, before the workshop)
+
+```text
+/plugin marketplace add JuliusBrussee/caveman
+/plugin install caveman@caveman
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+/reload-plugins
+```
+
+Prompt audit needs no install (`/claude-api prompt-audit CLAUDE.md`). Per-demo checks and paste-in fallbacks are in the Setup section of Demos [00](00-prompt-audit/README.md), [01](01-caveman/README.md), and [02](02-ponytail/README.md). Plugins come from public repositories; follow the team's policy on third-party plugins.
+
 ## Recommended Agenda Mapping (3 Hours)
 
 1. **Foundations (0:00–0:30):**

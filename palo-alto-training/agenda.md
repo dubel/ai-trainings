@@ -2,7 +2,7 @@
 
 **Goal:** Understand repository instructions and skills foundations, then execute a bounded task from the C++ project: from issue report and documentation to code change, testing, and result evaluation. Participants work in their own repositories using Claude Code.
 
-**Pre-workshop Preparation:** The team selects one Jira issue with a reproducible problem and narrow scope. The team provides access to the relevant repositories and documentation, working build/test commands, and target platform information. The instructor prepares brief examples of `CLAUDE.md`, `AGENTS.md`, Ponytail, and Caveman, and verifies `/claude-api prompt-audit` availability in the participants' Claude Code environment. Good example task: an x86/x64-dependent defect in legacy C++ code; if the current team task is in another area, the exercise follows that instead.
+**Pre-workshop Preparation:** The team selects one Jira issue with a reproducible problem and narrow scope. The team provides access to the relevant repositories and documentation, working build/test commands, and target platform information. Each participant installs the Caveman and Ponytail plugins beforehand (commands in `demos/README.md`). The instructor prepares brief examples of `CLAUDE.md`, `AGENTS.md`, Ponytail, and Caveman, and verifies that `/claude-api prompt-audit` runs in the participants' Claude Code environment. Good example task: an x86/x64-dependent defect in legacy C++ code; if the current team task is in another area, the exercise follows that instead.
 
 | Time | Project Work | Outcome |
 |---|---|---|
