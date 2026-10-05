@@ -1,7 +1,7 @@
 # Preliminary Theory Presentation Steps
 
 **Duration:** approximately 20 minutes  
-**Purpose:** establish a shared mental model before the practical C++ task.
+**Purpose:** establish a shared mental model before the live demos.
 
 ## 1. AI Adoption Levels — 3 minutes
 
@@ -29,9 +29,9 @@ Explain the minimum needed to work effectively with Claude:
 
 Introduce `/claude-api prompt-audit` as a maintenance check when moving repository guidance to a newer Opus model. In Claude Code, it can audit `CLAUDE.md`, `AGENTS.md`, skills, and other instructions against the target model. It reports findings with file locations and proposes a diff; it does not apply that diff. The goal is to remove dated or conflicting instructions while keeping project facts, C++ build commands, platform constraints, and necessary safeguards.
 
-Typical findings: capitalized emphasis (`IMPORTANT`, `MUST`), rigid step-by-step procedures, reasoning scaffolding, duplicated rules, stale paths or commands, and instruction files that contradict each other. Since Claude Code v2.1.283, `/doctor prompt-audit` (alias `/checkup prompt-audit`) runs the same procedure scoped to every instruction file loaded in the session: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md` (root, ancestors, nested), `~/.claude/CLAUDE.md`, plus rules, skills, commands, subagents, and output styles. Settings files are not read.
+Typical findings: capitalized emphasis (`IMPORTANT`, `MUST`), rigid step-by-step procedures, reasoning scaffolding, duplicated rules, stale paths or commands, and instruction files that contradict each other.
 
-**Workshop exercise:** participants run the audit command (`/claude-api prompt-audit CLAUDE.md` or `/doctor prompt-audit`) directly on their team's own repository `CLAUDE.md`. (Use [Demo 00](demos/00-prompt-audit/README.md) as a fallback if a participant's repository does not yet have instruction files). Review one finding and its proposed edit: ask what failure the original rule prevented, whether that failure still occurs, and what check catches regressions. Keep project facts and MSVC build flags; prune token waste. Check that the command is available in the participants' Claude Code installation before the session.
+**Workshop exercise:** participants run the audit command (`/claude-api prompt-audit CLAUDE.md`) directly on their team's own repository `CLAUDE.md`. (Use [Demo 00](demos/00-prompt-audit/README.md) as a fallback if a participant's repository does not yet have instruction files). Review one finding and its proposed edit: ask what failure the original rule prevented, whether that failure still occurs, and what check catches regressions. Keep project facts and MSVC build flags; prune token waste. Check that the command is available in the participants' Claude Code installation before the session.
 
 Sources: [Anthropic's prompt audit guide](https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md) and [Claude Platform cost guidance](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence).
 
@@ -44,7 +44,7 @@ Present these as practical controls for cost, context, and engineering effort:
 - **Ponytail:** prefers the smallest correct implementation and one focused check.
 - **Model routing:** sends routine work to cheaper or faster models and reserves stronger models for difficult reasoning.
 
-Use the [numbered demos](demos/README.md) if customer code is unavailable. Demo 00 provides a realistic legacy C++ instruction file to audit with `/claude-api prompt-audit`. Demo 01 uses saved C++ test output to show Caveman; Demo 02 uses runnable C++ code and a regression test to show Ponytail; Demo 03 compares vague prompts with contracts in C++ and Go; Demo 04 demonstrates pure domain logic rules in C++ and Go; Demo 05 shows RTK context compression on noisy test runs. All include pasteable instructions if skills are not installed.
+Use the [numbered demos](demos/README.md) if customer code is unavailable. Demo 00 provides a realistic legacy C++ instruction file to audit with `/claude-api prompt-audit`. Demo 01 uses saved C++ test output to show Caveman; Demo 02 uses runnable C++ code and a regression test to show Ponytail; Demo 03 compares vague prompts with contracts in C++ and Go; Demo 04 demonstrates pure domain logic rules in C++ and Go; Demo 05 shows RTK context compression on noisy test runs; Demo 06 shows hooks; Demo 07 runs a ticket-to-PR loop with Opus planning and Sonnet implementing. All include pasteable instructions if skills are not installed.
 
 Discuss four costs: tokens, latency, engineer attention, and verification effort. The cheapest model call is not always the cheapest verified outcome.
 
@@ -63,7 +63,7 @@ Explain that the model is only one component. Reliable performance comes from th
   - *Role:* Dedicated to the PR and issue lifecycle (fetching Jira/GitHub issue requirements, tracking cross-repo PR status, and publishing reviewed PR diffs with verification evidence).
 - Feedback loops with observable evidence.
 
-Use Matt Pocock's material only after selecting and verifying the exact source. Connect the harness directly to the practical C++ exercise.
+Use Matt Pocock's material only after selecting and verifying the exact source. Connect the harness to the demos that follow.
 
 ## 5. System One Models and Jev — 3 minutes
 
