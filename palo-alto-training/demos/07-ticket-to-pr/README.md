@@ -6,7 +6,7 @@
 fetch ticket → /quick-spec → approve → new chat → /quick-dev → verify (high effort) → /adversarial-review → draft PR
 ```
 
-Three project skills in `.claude/skills/` carry the loop (`quick-spec`, `quick-dev`, `adversarial-review`). They are short on purpose: they state goals and gotchas, not scripts. They are workshop examples, not built-in commands. Keep `instructor/` closed while you work.
+Three project skills in `.claude/skills/` carry the loop (`quick-spec`, `quick-dev`, `adversarial-review`). They are short on purpose: they state goals and gotchas, not scripts. Each sets its own model: **Opus plans and reviews, Sonnet implements** (see [MODEL-ROUTING.md](../../MODEL-ROUTING.md)). They are workshop examples, not built-in commands. Keep `instructor/` closed while you work.
 
 ## Setup
 
@@ -23,13 +23,13 @@ claude
 ### 1. Get the ticket (5 min)
 Use `TICKET.md` (NET-1427) for the sample. For your own task, copy the ticket text from Jira into a local `TICKET.md` in your repository; no integration is needed. Ask Claude to restate the acceptance criteria and list anything ambiguous.
 
-### 2. Spec with an interview (10 min, `/effort low`)
+### 2. Spec with an interview (10 min, Opus, `/effort low`)
 ```text
 /quick-spec TICKET.md
 ```
 Answer the questions Claude asks, then approve. Expected: a saved `docs/generated/spec-*.md` with file-level tasks and Given/When/Then criteria, and no production code yet. Low effort is enough here because you are in the loop.
 
-### 3. Implement in a fresh context (15 min, `/effort medium`)
+### 3. Implement in a fresh context (15 min, Sonnet, `/effort medium`)
 Start a **new conversation** so the spec is the only contract:
 ```text
 /quick-dev docs/generated/spec-<slug>.md
@@ -39,7 +39,7 @@ Expected: a code change, added tests, and a build result with the compiler and a
 ### 4. Verify (10 min, `/effort high`)
 Run `build.bat` yourself. Open the diff, not the summary, and walk each acceptance criterion with a concrete input. Raise effort for this step: edge cases are what higher effort catches, not wrong approaches.
 
-### 5. Adversarial review in a fresh context (10 min)
+### 5. Adversarial review in a fresh context (10 min, Opus)
 ```text
 /adversarial-review
 ```
@@ -47,6 +47,10 @@ Optionally also run `/ponytail-review` for over-engineering. Decide for each fin
 
 ### 6. Draft PR (5 min)
 Ask Claude for a PR description that lists criteria covered, commands run with results, targets not run, and review findings with decisions. Open the PR with GitHub MCP only if your team allows it; otherwise stop at the description. Never let Claude push or merge unreviewed.
+
+## Model routing
+
+The skill `model` field switches the model for that skill's turn. Check which model is active with `/model` and confirm it matches the table above. If a skill does not switch in your version, use `/model opus` before steps 2 and 5 and `/model sonnet` before step 3, or start with `/model opusplan` (Opus in plan mode, Sonnet in execution). Measure it: run the same ticket entirely on Opus once and compare usage and retries.
 
 ## Try it on your own task
 
