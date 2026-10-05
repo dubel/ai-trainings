@@ -37,26 +37,28 @@ This is a synthetic fallback exercise for the three-hour workshop. Use a real, b
 
 Use [prompt.md](prompt.md) for the two live steps. Paste [ponytail-instructions.md](ponytail-instructions.md) before the implementation step if the custom skill is unavailable. This is a workflow instruction, not a built-in Claude command.
 
-## Build and run
+## Build and run (Windows)
 
-From this directory, on a Unix-like host with a C++17 compiler:
+You can run `build.bat` or compile directly from PowerShell or Command Prompt:
 
-```sh
-mkdir -p build
-c++ -std=c++17 -Wall -Wextra -Wconversion -Werror -Iinclude src/range_check.cpp tests/range_check_test.cpp -o build/range_check_test
-./build/range_check_test
-```
-
-The initial run should exit nonzero. After fixing `src/range_check.cpp`, rebuild with the same command and expect all checks to pass. `build/` is ignored by Git.
-
-On Windows, from a Visual Studio Developer Command Prompt:
-
+### Using MSVC (Visual Studio Developer Command Prompt):
 ```bat
 cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\range_check.cpp tests\range_check_test.cpp /Fe:range_check_test.exe
 range_check_test.exe
 ```
 
-Run the command on each target you claim to have verified. If a 32-bit toolchain is unavailable, mark that target **not run**; a 64-bit run does not cover it.
+### Using Clang / GCC on Windows:
+```bat
+clang++ -std=c++17 -Wall -Wextra -Wconversion -Werror -Iinclude src/range_check.cpp tests/range_check_test.cpp -o range_check_test.exe
+.\range_check_test.exe
+```
+
+Or simply run:
+```bat
+build.bat
+```
+
+The initial run should exit nonzero. After fixing `src/range_check.cpp`, rebuild and expect all checks to pass. If a 32-bit toolchain is unavailable, mark that target **not run**; a 64-bit run does not cover it.
 
 ## Evidence to leave in the issue or PR
 

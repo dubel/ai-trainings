@@ -1,0 +1,6 @@
+[COMPACT OUTPUT]
+FAILED: 1/121 tests
+InventoryClient :: rejects-expired-token
+AssertionError: expected status 403, received 200
+at tests/inventory_client_test.cpp:84
+120 passed; 1 failed
