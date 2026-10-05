@@ -169,6 +169,20 @@
     .toolcard .stat { padding:10px 12px; background:var(--primary-light); border-radius:10px; color:var(--text-dark); font-size:14px; font-weight:750; line-height:1.35; }
     .toolcard .tag { margin-top:auto; padding-top:10px; color:var(--primary); font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
     body.grid-mode .slide .story,body.grid-mode .slide .levels,body.grid-mode .slide .toolcards { height:68%; }
+    .bars { display:flex; align-items:flex-end; gap:12px; height:250px; padding:18px 22px 0; }
+    .bar { flex:1; display:flex; flex-direction:column; justify-content:flex-end; align-items:stretch; height:100%; text-align:center; }
+    .bar i { display:block; border-radius:6px 6px 0 0; }
+    .bar i.old { background:#c9d2dc; }
+    .bar i.new { height:22px; background:var(--primary); }
+    .bar span { display:block; padding-top:8px; color:var(--text-muted); font-size:13px; font-weight:800; }
+    .price-row { display:flex; justify-content:space-between; padding:11px 14px; background:var(--bg-light); border-radius:10px; font-size:16px; font-weight:750; }
+    .price-row b { color:var(--primary); }
+    .lever-list { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+    .lever-list li { padding:12px 14px; background:var(--bg-light); border-radius:10px; font-size:15px; font-weight:700; line-height:1.35; }
+    .code-panel pre.term { font-size:14px; }
+    .code-panel .rows { display:grid; gap:10px; }
+    .code-panel .rows div { padding:12px 14px; background:var(--bg-light); border-radius:10px; font-size:15px; font-weight:700; line-height:1.35; }
+    .code-panel .rows div span { display:block; margin-bottom:3px; color:var(--primary); font-size:12px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
     .fragment { opacity:.14; transform:translateY(8px); transition:.2s ease; }
     .fragment.visible { opacity:1; transform:none; }
     .notes { display:none; }
@@ -323,16 +337,24 @@ FAIL: 64-bit offset truncated to 32 bits</span>
         <aside class="notes">RTK, Caveman and Ponytail are specific tools, not built-in Claude features. The RTK figures come from the Demo 02 simulation (131 lines and about 1,250 tokens versus 6 lines and about 56 tokens), not from a measured customer log. The Ponytail numbers are the project own benchmark on a small sample, so call them vendor claims and tell the team to measure on their own tasks. Mascot and logo images are used under the MIT licenses in assets/.</aside>
       </section>
 
-      <section class="slide white" data-index="08" data-title="A task contract removes unsafe assumptions">
-        <div class="section-head"><div><p class="eyebrow">Prompt to contract</p><h2>A task contract removes unsafe assumptions</h2></div></div>
-        <div class="diamond-wrap" style="grid-template-columns:1fr;height:auto">
-          <div class="contract-list">
-            <div class="contract-item fragment"><b>Scope</b><span>Files, behavior, and explicit exclusions.</span></div>
-            <div class="contract-item fragment"><b>Constraints</b><span>Platforms, compatibility, security, and style.</span></div>
-            <div class="contract-item fragment"><b>Acceptance</b><span>Commands, expected results, and proof.</span></div>
-          </div>
+      <section class="slide white" data-index="08" data-title="Prompt versus contract">
+        <div class="section-head"><div><p class="eyebrow">Demo 04 preview</p><h2>The same task, a prompt and a contract</h2></div></div>
+        <div class="story" style="height:350px">
+          <article class="code-panel panel fragment"><div class="label">Run A · vague prompt</div><pre>Please add change risk handling
+to our deployment gate. High risk
+deployments in production need
+architecture approval. Update the
+code and tests.</pre><p class="note">Watch for new classes, <code>std::shared_ptr</code>, C++20 features, or changed enums.</p></article>
+          <article class="code-panel panel fragment"><div class="label">Run B · contract</div><pre>Goal: implement task.md
+Plan Mode first: files, fields,
+  branches, test cases
+C++17, MSVC /W4 /WX, no heap
+  allocation, keep it pure
+Non-goals: no logging, persistence,
+  HTTP, or test-helper refactors
+Verify: run the test command</pre><p class="note">Scope, constraints, non-goals, and a way to verify.</p></article>
         </div>
-        <aside class="notes">Contrast “fix the parser” with a bounded task contract. A good contract names scope, constraints, acceptance criteria, and evidence. The model can then reason without inventing missing requirements.</aside>
+        <aside class="notes">These are the prompts from Demo 04, shortened. The vague prompt leaves the model to invent scope and style. The contract names the files, the language and compiler limits, what is out of scope, and how to verify. Run both live and compare the diffs, not the summaries.</aside>
       </section>
 
       <section class="slide" data-index="09" data-title="Jira can anchor the complete engineering loop">
@@ -382,7 +404,66 @@ FAIL: 64-bit offset truncated to 32 bits</span>
         <aside class="notes">Opus 5.5 lists at $4 input and $20 output per million tokens; Sonnet 5.5 at $2 and $10, so half per token. Sonnet 5.5 is positioned for well-scoped everyday coding, which is what an approved spec is. No source we found measures Opus against Sonnet on the same task, so treat savings as unproven and have the team run one ticket both ways. In Claude Code: /model opusplan uses Opus in plan mode and Sonnet in execution, or set model in a skill's frontmatter as Demo 07 does. Escalate to Opus when Sonnet fails the same problem three times. Details and sources: MODEL-ROUTING.md.</aside>
       </section>
 
-      <section class="slide" data-index="13" data-title="Platform claims require platform evidence">
+      <section class="slide white" data-index="13" data-title="Hooks enforce what rules only request">
+        <div class="section-head"><div><p class="eyebrow">Demo 06 preview</p><h2>Hooks enforce what rules only request</h2></div></div>
+        <div class="story" style="height:380px">
+          <article class="code-panel panel fragment"><div class="label">Three hooks in the demo</div><div class="rows">
+            <div><span>Before a command</span>Block <code>git push --force</code>, <code>git reset --hard</code>, <code>rm -rf</code>, <code>terraform apply</code>.</div>
+            <div><span>After an edit</span>Flag <code>(int)sizeof</code>, <code>int n = v.size()</code> and similar x86/x64 risks.</div>
+            <div><span>After an edit</span>Syntax-only compile of the changed file.</div>
+          </div></article>
+          <article class="code-panel panel fragment"><div class="label">What Claude sees</div><pre class="term"><span class="dim">$ git push origin main --force</span>
+<span class="bad">Blocked by guard-bash hook: Force-push
+rewrites shared history. Use --force-with-lease
+on your own branch after asking the user.</span>
+
+<span class="dim">sample/risky.cpp edited</span>
+<span class="bad">risky.cpp:7: sizeof yields size_t (64-bit
+on x64); cast to a 32-bit type truncates.</span></pre><p class="note">Exit code 2 blocks the action and sends the message back to Claude.</p></article>
+        </div>
+        <aside class="notes">A rule in CLAUDE.md asks; a hook enforces. The messages on the right are the real output of the Demo 06 scripts, with the long file path shortened. A hook is a command that runs with your permissions, so review it like any other script before enabling it. Hooks and CI cover what must always run; skills cover procedures needed only sometimes.</aside>
+      </section>
+
+      <section class="slide white" data-index="14" data-title="Every turn resends everything before it">
+        <div class="section-head"><div><p class="eyebrow">Cost anatomy</p><h2>Every turn resends everything before it</h2></div></div>
+        <div class="story" style="height:380px">
+          <article class="code-panel panel fragment"><div class="label">Context sent per turn</div>
+            <div class="bars">
+              <div class="bar"><i class="old" style="height:14%"></i><i class="new"></i><span>1</span></div>
+              <div class="bar"><i class="old" style="height:28%"></i><i class="new"></i><span>2</span></div>
+              <div class="bar"><i class="old" style="height:42%"></i><i class="new"></i><span>3</span></div>
+              <div class="bar"><i class="old" style="height:57%"></i><i class="new"></i><span>4</span></div>
+              <div class="bar"><i class="old" style="height:72%"></i><i class="new"></i><span>5</span></div>
+              <div class="bar"><i class="old" style="height:88%"></i><i class="new"></i><span>6</span></div>
+            </div>
+            <p class="note">Grey is history sent again. Orange is what the turn adds. Illustration, not a measurement.</p></article>
+          <article class="code-panel panel fragment"><div class="label">Opus 5.5 list price per million tokens</div>
+            <div class="rows" style="gap:8px">
+              <div class="price-row"><span style="all:unset">Input</span><b>$4</b></div>
+              <div class="price-row"><span style="all:unset">Output</span><b>$20</b></div>
+              <div class="price-row"><span style="all:unset">Cache read</span><b>$0.20</b></div>
+            </div>
+            <ul class="lever-list" style="margin-top:16px">
+              <li>Filter noisy output (RTK) and keep replies short (Caveman).</li>
+              <li>Keep the prompt prefix stable so cache reads apply.</li>
+              <li>Match effort to the step; compact long sessions.</li>
+            </ul></article>
+        </div>
+        <aside class="notes">Skip this slide if time is short. The claude.dev Opus 5.5 cost post puts it this way: a turn costs more than the tokens it adds, because it resends everything before it. It also says compaction pays back within about ten turns on a 150K-token context. Prices are Anthropic first-party list prices. The bar heights are an illustration, not data. Cheaper per token is not the same as cheaper per verified outcome.</aside>
+      </section>
+
+      <section class="slide white" data-index="15" data-title="Text from outside is data, not instructions">
+        <div class="section-head"><div><p class="eyebrow">Safety</p><h2>Text from outside is data, not instructions</h2></div></div>
+        <div class="pipeline" style="grid-template-columns:repeat(4,1fr)">
+          <article class="stage fragment"><b>01 · Untrusted text</b><strong>Issue, PR comment, log, web page</strong><span>Anyone can write into it.</span></article>
+          <article class="stage fragment"><b>02 · Agent reads</b><strong>Data, not orders</strong><span>A hidden "run this command" is content to report.</span></article>
+          <article class="stage fragment"><b>03 · Permission gate</b><strong>Ask before acting</strong><span>Least privilege for shell, network, and write tools.</span></article>
+          <article class="stage fragment"><b>04 · Hook and human</b><strong>Block, then review</strong><span>Guard hooks stop destructive commands; people approve PRs.</span></article>
+        </div>
+        <aside class="notes">Skip this slide if time is short. It matters once GitHub MCP is in use, because issue and pull request text comes from people who may not be on your team. The defenses are layered: treat tool output as data, keep permissions narrow, add hooks for commands that must never run, and keep a person on writes such as opening or merging a PR.</aside>
+      </section>
+
+      <section class="slide" data-index="16" data-title="Platform claims require platform evidence">
         <div class="section-head"><div><p class="eyebrow">C++ platform reality</p><h2>Platform claims require platform evidence</h2></div></div>
         <div class="platform">
           <article class="platform-card fragment"><p class="eyebrow">32-bit</p><h3>Windows · x86</h3><div class="platform-list"><div>32-bit size_t and pointers</div><div>Integer truncation and overflow</div><div>Warnings and tests on x86</div></div></article>
@@ -392,7 +473,7 @@ FAIL: 64-bit offset truncated to 32 bits</span>
         <aside class="notes">A 64-bit test cannot prove 32-bit behavior, and one compiler cannot prove another. Report evidence for each target you claim, and name the targets you did not run. Encode the repeatable x86 and x64 build and test commands as a skill.</aside>
       </section>
 
-      <section class="slide white" data-index="14" data-title="Every success claim needs observable proof">
+      <section class="slide white" data-index="17" data-title="Every success claim needs observable proof">
         <div class="section-head"><div><p class="eyebrow">Evidence contract</p><h2>Every success claim needs observable proof</h2></div></div>
         <div class="evidence">
           <article class="evidence-step fragment"><div class="disc"></div><h3>Claim</h3><p>State exactly what now works.</p></article>
@@ -403,7 +484,7 @@ FAIL: 64-bit offset truncated to 32 bits</span>
         <aside class="notes">Keep proof boundaries honest. Local tests, CI, review, deployment, and live behavior are distinct. A successful build proves compilation. It does not prove production behavior.</aside>
       </section>
 
-      <section class="slide" data-index="15" data-title="Start with one bounded pilot task">
+      <section class="slide" data-index="18" data-title="Start with one bounded pilot task">
         <div class="section-head"><div><p class="eyebrow">Next steps</p><h2>Start with one bounded pilot task</h2></div></div>
         <div class="cta-grid" style="grid-template-columns:1fr;height:auto">
           <div class="steps">
@@ -416,7 +497,7 @@ FAIL: 64-bit offset truncated to 32 bits</span>
         <aside class="notes">These are the steps to take back to your own work after the demos: pick one bounded task, write the contract, run it with Claude Code, and keep what worked in repository instructions or skills.</aside>
       </section>
 
-      <section class="slide dark" data-index="16" data-title="Questions before the demos?">
+      <section class="slide dark" data-index="19" data-title="Questions before the demos?">
         <div class="qa">
           <div><p class="eyebrow">Discussion</p><h2>Questions before the demos?</h2><p class="lead">Next: live Claude Code demos on C++ and Go examples, from prompt audit to ticket-to-PR.</p></div>
           <div class="qa-card"><div class="qmark">?</div></div>
@@ -429,7 +510,7 @@ FAIL: 64-bit offset truncated to 32 bits</span>
 
   <div id="progress"></div>
   <div id="help">←/→ navigate · G grid · T theme · F full screen · H controls · Alt+A admin</div>
-  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 16</span><button id="next" aria-label="Next slide">›</button></nav>
+  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 19</span><button id="next" aria-label="Next slide">›</button></nav>
 
   <div id="admin" aria-hidden="true">
     <section class="admin-card">
