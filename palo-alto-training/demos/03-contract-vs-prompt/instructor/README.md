@@ -9,7 +9,7 @@ Show why a vague prompt fails on legacy C++ (adds heap memory, new interfaces, C
 |---|---|---|
 | **Abstractions** | Often invents `IRiskPolicy`, `RiskEvaluatorFactory`, or strategy patterns | Single pure extension in existing `evaluate_deployment` |
 | **Allocations** | Frequently introduces `std::make_shared` or string manipulation | Zero heap allocations; uses enums and value types |
-| **Toolchain** | May attempt C++20 concepts/ranges or Linux-only libraries | Clean C++17 compatible with MSVC `/W4 /WX` |
+| **Toolchain** | May attempt C++20 concepts/ranges or non-MSVC-compatible features | Clean C++17 compatible with MSVC `/W4 /WX` |
 | **Signatures** | Sometimes alters existing parameters breaking callers | Extends struct fields with defaults, preserving callers |
 
 ## Reference Solution (C++)

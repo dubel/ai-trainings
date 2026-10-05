@@ -11,7 +11,7 @@ This exercise is especially critical in **25-year-old C++ codebases** and **Go m
 
 Participants can choose either the **C++** stack or the **Go** stack:
 
-- `cpp/` — C++17 deployment gate (Windows MSVC & Unix support).
+- `cpp/` — C++17 deployment gate (Windows, MSVC).
 - `go/` — Go microservice deployment gate (`go test ./...`).
 - `task.md` — The feature specification derived from Jira.
 - `prompts/` — The two contrasting prompts to test in Claude Code:
