@@ -44,7 +44,7 @@ Present these as practical controls for cost, context, and engineering effort:
 - **Ponytail:** prefers the smallest correct implementation and one focused check.
 - **Model routing:** sends routine work to cheaper or faster models and reserves stronger models for difficult reasoning.
 
-Use the [numbered demos](demos/README.md) if customer code is unavailable. Demo 00 provides a realistic legacy C++ instruction file to audit with `/claude-api prompt-audit`. Demo 01 uses saved C++ test output to show Caveman; Demo 02 uses runnable C++ code and a regression test to show Ponytail; Demo 03 compares vague prompts with contracts in C++ and Go; Demo 04 demonstrates pure domain logic rules in C++ and Go; Demo 05 shows RTK context compression on noisy test runs; Demo 06 shows hooks; Demo 07 runs a ticket-to-PR loop with Opus planning and Sonnet implementing. All include pasteable instructions if skills are not installed.
+Use the [numbered demos](demos/README.md) if customer code is unavailable. Demo 00 provides a realistic legacy C++ instruction file to audit with `/claude-api prompt-audit`. Demo 01 uses saved C++ test output to show Caveman; Demo 02 shows RTK context compression on noisy test runs; Demo 03 uses runnable C++ code and a regression test to show Ponytail; Demo 04 compares vague prompts with contracts in C++ and Go; Demo 05 demonstrates pure domain logic rules in C++ and Go; Demo 06 shows hooks; Demo 07 runs a ticket-to-PR loop with Opus planning and Sonnet implementing. All include pasteable instructions if skills are not installed.
 
 Discuss four costs: tokens, latency, engineer attention, and verification effort. The cheapest model call is not always the cheapest verified outcome.
 

@@ -1,11 +1,12 @@
 Time	Session	Outcome
 0:00–0:20	Theory briefing: models propose and engineering systems verify, repository instructions, mechanisms (rules, skills, hooks), task contracts, local multi-repo workspace with GitHub MCP, model routing, evidence (theory-presentation.html).	Shared vocabulary and the map for the demos.
 0:20–0:35	Demo 00 — Prompt Audit: audit a CLAUDE.md and prune filler while keeping MSVC flags.	One justified audit decision.
-0:35–0:55	Demo 01 — Caveman and Demo 05 — Noisy CI (RTK): concise status reports and filtered build output.	Shorter reports and compact logs that keep errors, targets, and unverified platforms.
-0:55–1:15	Demo 02 — Ponytail: smallest correct fix for a 32-bit/64-bit range-check bug.	A minimal fix with test evidence per target.
+0:35–0:45	Demo 01 — Caveman: concise status reports without evidence loss.	Shorter reports that keep errors, targets, and unverified platforms.
+0:45–0:55	Demo 02 — Noisy CI (RTK): filtered build and test output.	Compact logs that keep the failing test, line, and summary.
+0:55–1:15	Demo 03 — Ponytail: smallest correct fix for a 32-bit/64-bit range-check bug.	A minimal fix with test evidence per target.
 1:15–1:25	Break.
-1:25–1:45	Demo 03 — Contract vs Prompt: the same task with a vague prompt and with a contract (C++ or Go).	A task contract template.
-1:45–2:00	Demo 04 — Rules & Guardrails: plan tests first and keep domain logic pure.	Repository rules that Claude follows.
+1:25–1:45	Demo 04 — Contract vs Prompt: the same task with a vague prompt and with a contract (C++ or Go).	A task contract template.
+1:45–2:00	Demo 05 — Rules & Guardrails: plan tests first and keep domain logic pure.	Repository rules that Claude follows.
 2:00–2:15	Demo 06 — Hooks: block destructive commands; flag x86/x64 and syntax problems after every edit.	One hook the team could adopt.
 2:15–2:50	Demo 07 — Ticket to PR: ticket, spec on Opus, implementation on Sonnet in a fresh context, verification, adversarial review (see MODEL-ROUTING.md).	A reusable loop and a model-routing rule to test.
 2:50–3:00	Wrap-up: pick 3–5 rules for the team's CLAUDE.md, choose one real task for the loop, share READING-LIST.md.	Concrete next steps.
