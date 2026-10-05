@@ -17,7 +17,7 @@ cd palo-alto-training\demos\06-hooks
 powershell -NoProfile -ExecutionPolicy Bypass -File test-hooks.ps1
 ```
 
-Each line feeds a hook the JSON Claude Code would send and checks the exit code. `clang++` or `g++` must be on `PATH` (or run from a Developer Command Prompt for `cl`); without a compiler the syntax test fails, because the hook skips silently by design.
+Each line feeds a hook the JSON Claude Code would send and checks the exit code. The two syntax tests run only when `cl` (Developer Command Prompt), `clang++` or `g++` is on `PATH`; otherwise the script prints `SKIP`, because the syntax hook skips silently without a compiler.
 
 ## 2. Live demo in Claude Code
 

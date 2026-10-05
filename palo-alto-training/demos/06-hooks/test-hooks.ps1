@@ -22,8 +22,14 @@ Test-Hook 'block  terraform apply'          hooks/guard-bash.ps1 (Bash-Json 'ter
 Test-Hook 'allow  terraform plan'           hooks/guard-bash.ps1 (Bash-Json 'terraform plan') 0
 Test-Hook 'clean  src/buffer_utils.cpp (32/64)' hooks/check-32-64.ps1 (Edit-Json 'src/buffer_utils.cpp') 0
 Test-Hook 'risky  sample/risky.cpp (32/64)' hooks/check-32-64.ps1 (Edit-Json 'sample/risky.cpp') 2
-Test-Hook 'clean  src/buffer_utils.cpp (syntax)' hooks/syntax-check.ps1 (Edit-Json 'src/buffer_utils.cpp') 0
-Test-Hook 'broken sample/broken.cpp (syntax)' hooks/syntax-check.ps1 (Edit-Json 'sample/broken.cpp') 2
+# The syntax hook skips silently without a compiler, so these tests are only meaningful when one is on PATH.
+$compiler = 'cl', 'clang++', 'g++' | Where-Object { Get-Command $_ -ErrorAction SilentlyContinue } | Select-Object -First 1
+if ($compiler) {
+    Test-Hook "clean  src/buffer_utils.cpp (syntax, $compiler)" hooks/syntax-check.ps1 (Edit-Json 'src/buffer_utils.cpp') 0
+    Test-Hook "broken sample/broken.cpp (syntax, $compiler)" hooks/syntax-check.ps1 (Edit-Json 'sample/broken.cpp') 2
+} else {
+    Write-Host 'SKIP syntax-check tests: no cl, clang++ or g++ on PATH (the hook also skips silently).'
+}
 
 if ($failed -gt 0) { Write-Host "$failed test(s) failed"; exit 1 }
 Write-Host 'All hook tests passed'
