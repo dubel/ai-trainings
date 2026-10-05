@@ -1,5 +1,6 @@
 ---
 name: adversarial-review
+model: opus
 description: Review a diff against its spec as a skeptic and report findings only. Use after implementation, or when asked for an adversarial review, a critical review, or to try to break a change.
 ---
 

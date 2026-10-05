@@ -1,5 +1,6 @@
 ---
 name: quick-spec
+model: opus
 description: Turn a ticket or change request into a short, implementation-ready spec with file-level tasks and Given/When/Then criteria. Use before coding when the user gives a ticket, story, or task file, or asks for a spec or plan.
 ---
 

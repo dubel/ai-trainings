@@ -1,5 +1,6 @@
 ---
 name: quick-dev
+model: sonnet
 description: Implement an approved spec end to end with minimal code, tests, and a verified build. Use when the user points at a spec file or says to implement a spec.
 ---
 
