@@ -8,4 +8,4 @@
 
 > Clang, Windows x64, 64-bit `size_t`: 2 failures — `SIZE_MAX` wrap; 64-to-32-bit truncation. Cause: unchecked `offset + count`; narrowing to `std::uint32_t`. Fix: guard `offset <= capacity`, then check `count <= capacity - offset`. Rebuild and run focused test. 32-bit (x86) and MSVC: not run.
 
-Check both versions for the same facts. The exact build command is in [Demo 02](../02-ponytail/README.md); this fixture does not supply one, so the response should not invent it.
+Check both versions for the same facts. The exact build command is in [Demo 03](../03-ponytail/README.md); this fixture does not supply one, so the response should not invent it.

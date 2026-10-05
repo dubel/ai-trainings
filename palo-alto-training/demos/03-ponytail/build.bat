@@ -21,24 +21,24 @@ exit /b 1
 
 :compile_msvc
 echo [MSVC] Compiling Demo 03...
-cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\deployment_gate.cpp tests\deployment_gate_test.cpp /Fe:deployment_gate_test.exe
+cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\range_check.cpp tests\range_check_test.cpp /Fe:range_check_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running deployment_gate_test.exe...
-deployment_gate_test.exe
+echo Running range_check_test.exe...
+range_check_test.exe
 exit /b %ERRORLEVEL%
 
 :compile_clang
 echo [Clang/Windows] Compiling Demo 03...
-clang++ -std=c++17 -Wall -Wextra -Werror -Iinclude src/deployment_gate.cpp tests/deployment_gate_test.cpp -o deployment_gate_test.exe
+clang++ -std=c++17 -Wall -Wextra -Wconversion -Werror -Iinclude src/range_check.cpp tests/range_check_test.cpp -o range_check_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running deployment_gate_test.exe...
-deployment_gate_test.exe
+echo Running range_check_test.exe...
+range_check_test.exe
 exit /b %ERRORLEVEL%
 
 :compile_gxx
 echo [G++/Windows] Compiling Demo 03...
-g++ -std=c++17 -Wall -Wextra -Werror -Iinclude src/deployment_gate.cpp tests/deployment_gate_test.cpp -o deployment_gate_test.exe
+g++ -std=c++17 -Wall -Wextra -Wconversion -Werror -Iinclude src/range_check.cpp tests/range_check_test.cpp -o range_check_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running deployment_gate_test.exe...
-deployment_gate_test.exe
+echo Running range_check_test.exe...
+range_check_test.exe
 exit /b %ERRORLEVEL%

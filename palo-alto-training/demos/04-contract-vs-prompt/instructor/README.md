@@ -1,4 +1,4 @@
-# Instructor Notes — Demo 03
+# Instructor Notes — Demo 04
 
 ## Didactic Goal
 Show why a vague prompt fails on legacy C++ (adds heap memory, new interfaces, C++20 features that break MSVC 2017) and Go (adds goroutines, channels, unnecessary third-party dependencies), whereas a specification contract keeps the diff minimal, pure, and backward-compatible.

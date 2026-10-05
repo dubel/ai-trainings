@@ -1,4 +1,4 @@
-# Demo 04 — Rules & Guardrails: Pure Domain Logic & Refactoring (C++ & Go)
+# Demo 05 — Rules & Guardrails: Pure Domain Logic & Refactoring (C++ & Go)
 
 **Goal:** Understand how repository instructions (`CLAUDE.md`) and Ponytail principles prevent AI agents from introducing unwanted side effects (sleeping, threads, I/O, logging) into legacy domain logic.
 

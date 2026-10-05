@@ -1,4 +1,4 @@
-# Demo 05 — Raw vs Compact Terminal Output (RTK)
+# Demo 02 — Raw vs Compact Terminal Output (RTK)
 
 **Goal:** Understand how noisy terminal and test runner outputs consume precious context window tokens in Claude Code, and how output filtering (like RTK) preserves diagnostic signal while cutting token usage by 85–95%.
 

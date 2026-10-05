@@ -1,4 +1,4 @@
-# Demo 02 — Ponytail: the smallest correct C++ range check
+# Demo 03 — Ponytail: the smallest correct C++ range check
 
 This is a synthetic fallback exercise for the three-hour workshop. Use a real, bounded team issue when one is available. The code has one deliberate defect; it does not access a buffer, so a passing sanitizer run alone cannot prove the range check is correct.
 

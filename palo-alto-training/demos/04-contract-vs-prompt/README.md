@@ -1,4 +1,4 @@
-# Demo 03 — Spec Contract vs Vague Prompt (C++ & Go)
+# Demo 04 — Spec Contract vs Vague Prompt (C++ & Go)
 
 **Goal:** Compare the diffs produced by Claude Code when given a casual/vague user prompt versus an explicit engineering contract with acceptance criteria, non-goals, and boundary constraints.
 

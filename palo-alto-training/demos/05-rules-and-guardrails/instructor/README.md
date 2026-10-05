@@ -1,4 +1,4 @@
-# Instructor Notes — Demo 04
+# Instructor Notes — Demo 05
 
 ## Didactic Goal
 Demonstrate how repository guardrails in `CLAUDE.md` prevent hallucinated side effects (`sleep`, threads, I/O logging) in legacy codebases, and how Ponytail minimalism achieves exponential backoff with a single arithmetic expression.

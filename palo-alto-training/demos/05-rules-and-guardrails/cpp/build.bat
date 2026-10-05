@@ -21,24 +21,24 @@ exit /b 1
 
 :compile_msvc
 echo [MSVC] Compiling Demo 05...
-cl /nologo /std:c++17 /EHsc src\noisy_ci.cpp /Fe:noisy_ci.exe
+cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\retry_policy.cpp tests\retry_policy_test.cpp /Fe:retry_policy_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running noisy_ci.exe --mode compare...
-noisy_ci.exe --mode compare
+echo Running retry_policy_test.exe...
+retry_policy_test.exe
 exit /b %ERRORLEVEL%
 
 :compile_clang
 echo [Clang/Windows] Compiling Demo 05...
-clang++ -std=c++17 src/noisy_ci.cpp -o noisy_ci.exe
+clang++ -std=c++17 -Wall -Wextra -Werror -Iinclude src/retry_policy.cpp tests/retry_policy_test.cpp -o retry_policy_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running noisy_ci.exe --mode compare...
-noisy_ci.exe --mode compare
+echo Running retry_policy_test.exe...
+retry_policy_test.exe
 exit /b %ERRORLEVEL%
 
 :compile_gxx
 echo [G++/Windows] Compiling Demo 05...
-g++ -std=c++17 src/noisy_ci.cpp -o noisy_ci.exe
+g++ -std=c++17 -Wall -Wextra -Werror -Iinclude src/retry_policy.cpp tests/retry_policy_test.cpp -o retry_policy_test.exe
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
-echo Running noisy_ci.exe --mode compare...
-noisy_ci.exe --mode compare
+echo Running retry_policy_test.exe...
+retry_policy_test.exe
 exit /b %ERRORLEVEL%

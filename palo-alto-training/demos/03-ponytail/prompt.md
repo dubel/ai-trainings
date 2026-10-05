@@ -1,4 +1,4 @@
-# Demo 02 prompts
+# Demo 03 prompts
 
 ## Step A — investigate without editing
 
