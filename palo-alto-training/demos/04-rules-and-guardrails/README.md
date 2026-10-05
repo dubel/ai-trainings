@@ -17,7 +17,7 @@ This demo demonstrates how **repository guardrails** in `CLAUDE.md` enforce:
 
 ## Structure
 
-- `cpp/` — C++17 retry policy (Windows MSVC & Unix support).
+- `cpp/` — C++17 retry policy (Windows, MSVC).
 - `go/` — Go microservice retry policy (`go test ./...`).
 - `CLAUDE.md` — Repository instructions defining the guardrails.
 - `task.md` — The feature specification.
