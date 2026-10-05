@@ -27,6 +27,14 @@ Explain the minimum needed to work effectively with Claude:
 - Effective work follows a loop: understand, plan, change, test, challenge, repeat.
 - Large repositories require focused context rather than loading everything.
 
+Introduce `/claude-api prompt-audit` as a maintenance check when moving repository guidance to a newer Opus model. In Claude Code, it can audit `CLAUDE.md`, `AGENTS.md`, skills, and other instructions against the target model. It reports findings with file locations and proposes a diff; it does not apply that diff. The goal is to remove dated or conflicting instructions while keeping project facts, C++ build commands, platform constraints, and necessary safeguards.
+
+Typical findings: capitalized emphasis (`IMPORTANT`, `MUST`), rigid step-by-step procedures, reasoning scaffolding, duplicated rules, stale paths or commands, and instruction files that contradict each other. Since Claude Code v2.1.283, `/doctor prompt-audit` (alias `/checkup prompt-audit`) runs the same procedure scoped to every instruction file loaded in the session: `CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md` (root, ancestors, nested), `~/.claude/CLAUDE.md`, plus rules, skills, commands, subagents, and output styles. Settings files are not read.
+
+**Workshop exercise:** select one repository instruction file, run the audit with that file and the current Opus model as scope, then review one finding and its proposed edit. Ask what failure the original rule prevented, whether that failure still occurs, and what check would catch a regression. A clean report and empty diff are valid outcomes. Check that the command is available in the participants' Claude Code installation before the session.
+
+Sources: [Anthropic's prompt audit guide](https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md) and [Claude Platform cost guidance](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence).
+
 ## 3. RTK, Caveman, Ponytail, and Model Routing — 5 minutes
 
 Present these as practical controls for cost, context, and engineering effort:
@@ -36,7 +44,11 @@ Present these as practical controls for cost, context, and engineering effort:
 - **Ponytail:** prefers the smallest correct implementation and one focused check.
 - **Model routing:** sends routine work to cheaper or faster models and reserves stronger models for difficult reasoning.
 
+Use the [numbered demos](demos/README.md) if customer code is unavailable. Demo 01 uses saved C++ test output to show Caveman; Demo 02 uses runnable C++ code and a regression test to show Ponytail. Both include pasteable instructions if the skills are not installed. Keep the prompt-audit demonstration separate.
+
 Discuss four costs: tokens, latency, engineer attention, and verification effort. The cheapest model call is not always the cheapest verified outcome.
+
+Audit old instructions before measuring cost on a new model: unnecessary tool rounds can distort the comparison. Measure any savings on the team's own tasks.
 
 ## 4. The Harness and Matt Pocock's Framing — 5 minutes
 

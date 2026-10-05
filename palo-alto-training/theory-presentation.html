@@ -78,12 +78,13 @@
     .cell.featured .tag { background:white; color:var(--primary); }
     .cell p { margin:0; color:var(--text-muted); font-size:15px; }
     .duo { display:grid; grid-template-columns:1fr 1fr; gap:24px; height:410px; }
-    .mode-card { position:relative; overflow:hidden; padding:34px; }
-    .mode-card .number { position:absolute; right:25px; top:18px; color:var(--line); font-size:78px; font-weight:900; line-height:1; }
-    .mode-card .mode-icon { width:68px; height:68px; margin-bottom:48px; border-radius:18px; display:grid; place-items:center; background:var(--primary-light); }
-    .mode-card .mode-icon svg { width:38px; height:38px; }
-    .mode-card:nth-child(2) .mode-icon { background:#e8f9fd; }
-    .mode-card p { max-width:430px; color:var(--text-muted); font-size:18px; }
+    .mode-card { display:flex; flex-direction:column; overflow:hidden; padding:30px 32px; }
+    .mode-card .sample-label { margin-bottom:12px; color:var(--primary); font-size:13px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+    .mode-card:nth-child(2) .sample-label { color:#0785a5; }
+    .mode-card h3 { font-size:29px; }
+    .mode-card pre { margin:26px 0 0; padding:20px; white-space:pre-wrap; background:var(--bg-dark); color:white; border-radius:12px; font-size:17px; line-height:1.55; }
+    .mode-card .sample-status { margin:28px 0 0; font-size:25px; font-weight:800; line-height:1.35; }
+    .mode-card .sample-note { margin-top:auto; color:var(--text-muted); font-size:16px; }
     .diamond-wrap { display:grid; grid-template-columns:1.6fr .8fr; gap:30px; height:408px; }
     .diamond { position:relative; overflow:hidden; background:white; border:1px solid var(--line); border-radius:18px; }
     .diamond svg { position:absolute; inset:38px 30px 72px; width:calc(100% - 60px); height:calc(100% - 110px); }
@@ -221,10 +222,10 @@
             <article class="repo-card panel fragment"><h3>AGENTS.md</h3><p>Shared rules, commands, boundaries.</p></article>
             <article class="repo-card panel fragment"><h3>CLAUDE.md</h3><p>Claude context and conventions.</p></article>
             <article class="repo-card panel fragment"><h3>Skills</h3><p>Reusable build and test workflows.</p></article>
-            <article class="repo-card panel fragment"><h3>Source</h3><p>Versioned and reviewable.</p></article>
+            <article class="repo-card panel fragment"><h3>Prompt audit</h3><p><code>/claude-api prompt-audit</code></p></article>
           </div>
         </div>
-        <aside class="notes">Explain the role, not the filename alone. Repository instructions capture durable policy. Skills capture repeatable procedures. Keep overlapping guidance consistent because different tools may read different files.</aside>
+        <aside class="notes">Explain the role, not the filename alone. Repository instructions capture durable policy; skills capture repeatable procedures. In Claude Code, /claude-api prompt-audit checks instructions against the target model and returns a report plus a proposed diff. It does not apply the diff. It flags capitalized emphasis, rigid procedures, reasoning scaffolding, stale paths/commands, and contradicting instruction files. Since Claude Code v2.1.283, /doctor prompt-audit runs it on all loaded CLAUDE.md, AGENTS.md, rules, skills, commands, and agents. Review each finding against the project's real C++ build commands, platform constraints, and safety rules. A clean audit is acceptable. Source: https://github.com/anthropics/skills/blob/main/skills/claude-api/shared/prompt-audit.md</aside>
       </section>
 
       <section class="slide white" data-index="04" data-title="Each responsibility needs the right mechanism">
@@ -241,13 +242,14 @@
         <aside class="notes">A rule can guide behavior but cannot guarantee it. Use hooks and CI for requirements that must run. Use skills for procedures that are useful only in specific tasks or environments.</aside>
       </section>
 
-      <section class="slide" data-index="05" data-title="Ponytail reduces code; Caveman reduces prose">
-        <div class="section-head"><div><p class="eyebrow">Interaction modes</p><h2>Ponytail reduces code; Caveman reduces prose</h2></div></div>
+      <section class="slide" data-index="05" data-title="One defect, two useful constraints">
+        <div class="section-head"><div><p class="eyebrow">Applied example</p><h2>One defect, two useful constraints</h2></div></div>
         <div class="duo">
-          <article class="mode-card panel fragment"><div class="number">01</div><div class="mode-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 14h28M10 24h18M10 34h24" fill="none" stroke="#fa582d" stroke-width="5" stroke-linecap="round"/></svg></div><h3>Ponytail</h3><p>Prefer the smallest correct change, existing platform features, and one focused check.</p></article>
-          <article class="mode-card panel fragment"><div class="number">02</div><div class="mode-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 14h32M8 24h24M8 34h15" fill="none" stroke="#00c0f3" stroke-width="5" stroke-linecap="round"/></svg></div><h3>Caveman</h3><p>Compress communication into direct facts, decisions, commands, and evidence.</p></article>
+          <article class="mode-card panel fragment"><div class="sample-label">Implementation</div><h3>Ponytail</h3><pre><code>return offset &lt;= capacity &amp;&amp;
+       count &lt;= capacity - offset;</code></pre><p class="sample-note">No new type or dependency. Run focused test.</p></article>
+          <article class="mode-card panel fragment"><div class="sample-label">Status update</div><h3>Caveman</h3><p class="sample-status">arm64: 2 failures.<br><code>SIZE_MAX</code> wrap; 64→32 truncation.</p><p class="sample-note">32-bit / MSVC: not run.</p></article>
         </div>
-        <aside class="notes">Ponytail is an implementation discipline: minimal surface area, no speculative abstractions, no unnecessary dependencies. Caveman is a communication discipline: short, precise, technically complete messages.</aside>
+        <aside class="notes">These examples are packaged in demos/01-caveman/ and demos/02-ponytail/. Demo 01 uses saved range-check test output to show concise status without losing failures or unverified platforms. Demo 02 uses a runnable C++ regression test and a one-expression fix. Both include pasteable prompts for use without installed skills. These are custom instructions, not built-in Claude commands. Prompt audit remains the separate repository-instruction exercise.</aside>
       </section>
 
       <section class="slide white" data-index="06" data-title="A task contract removes unsafe assumptions">
