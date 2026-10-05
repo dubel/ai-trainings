@@ -2,6 +2,16 @@
 
 This is a synthetic fallback exercise for the three-hour workshop. Use a real, bounded team issue when one is available. The code has one deliberate defect; it does not access a buffer, so a passing sanitizer run alone cannot prove the range check is correct.
 
+## Setup (once per participant, inside Claude Code)
+
+```text
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+/reload-plugins
+```
+
+Start a new session; the startup text names the active mode (lite, full, ultra). Related skills: `/ponytail-review` (over-engineering review of a diff) and `/ponytail-audit` (whole repository). Without the plugin, paste [ponytail-instructions.md](ponytail-instructions.md) before Step B. Source: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
+
 ## Jira-style issue
 
 **Title:** Large offsets can pass buffer range validation
@@ -47,7 +57,7 @@ cl /nologo /std:c++17 /W4 /EHsc /Iinclude src\range_check.cpp tests\range_check_
 range_check_test.exe
 ```
 
-### Using Clang / GCC on Windows:
+### Using Clang on Windows:
 ```bat
 clang++ -std=c++17 -Wall -Wextra -Wconversion -Werror -Iinclude src/range_check.cpp tests/range_check_test.cpp -o range_check_test.exe
 .\range_check_test.exe
