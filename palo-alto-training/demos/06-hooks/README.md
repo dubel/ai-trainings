@@ -5,7 +5,7 @@
 | Hook | Event | What it does | Why it matters for this team |
 |---|---|---|---|
 | `guard-bash.ps1` | `PreToolUse` (Bash) | Blocks `git push --force`, `git reset --hard`, `rm -rf`, `terraform apply/destroy` | Four or five repositories and real AWS infrastructure: destructive commands need a human |
-| `check-32-64.ps1` | `PostToolUse` (Edit/Write) | Flags `(int)sizeof`, pointer-to-32-bit casts, `int n = v.size()`, `long` assumptions | x86/x64 and LLP64/LP64 defects are a known source of legacy bugs |
+| `check-32-64.ps1` | `PostToolUse` (Edit/Write) | Flags `(int)sizeof`, pointer-to-32-bit casts, `int n = v.size()`, `long` assumptions | x86/x64 defects are a known source of legacy bugs |
 | `syntax-check.ps1` | `PostToolUse` (Edit/Write) | Syntax-only compile of the edited `.cpp` file (`cl`, else `clang++`, else `g++`) | Claude learns about a broken edit immediately, not after the build |
 
 Hooks are configured in `.claude/settings.json` in this directory, so they apply only when Claude Code is started here. A hook is a command with the user's permissions, so review every hook script before enabling it.
