@@ -20,9 +20,8 @@ claude
 
 ## Steps
 
-### 1. Fetch the ticket (5 min)
-- With Jira MCP configured: ask Claude to read your ticket and summarize the acceptance criteria. Check `/mcp` first.
-- Without it: use `TICKET.md` (NET-1427). Ask Claude to restate the acceptance criteria and list anything ambiguous.
+### 1. Get the ticket (5 min)
+Use `TICKET.md` (NET-1427) for the sample. For your own task, copy the ticket text from Jira into a local `TICKET.md` in your repository; no integration is needed. Ask Claude to restate the acceptance criteria and list anything ambiguous.
 
 ### 2. Spec with an interview (10 min, `/effort low`)
 ```text

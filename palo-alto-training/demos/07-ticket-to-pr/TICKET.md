@@ -1,6 +1,6 @@
 # NET-1427: Parse port lists from the agent configuration
 
-*Offline copy of a Jira ticket. If your team has Jira MCP configured, fetch your own ticket instead.*
+*Plain-text copy of a Jira ticket. For your own task, paste the ticket text into a file like this one.*
 
 **Type:** Story · **Priority:** Medium · **Component:** agent-config
 
