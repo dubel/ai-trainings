@@ -12,6 +12,7 @@ The exercises specifically target the team's stack: **C++17 on Windows (MSVC)** 
 | [03 — Contract vs Prompt](03-contract-vs-prompt/README.md) | C++ & Go | Bounded deployment gate, unit tests, Run A vs Run B prompts | **Spec & Acceptance Criteria:** Compare a vague prompt (which causes Claude to add unneeded allocations, modern C++20, or breaking ABI) vs an engineering contract that enforces pure, bounded logic. |
 | [04 — Rules & Guardrails](04-rules-and-guardrails/README.md) | C++ & Go | Exponential retry policy, unit tests, `CLAUDE.md` rules | **Bounded Refactoring:** Enforce pure domain logic in legacy systems. Prevent Claude from hallucinating `Sleep()`, threads, or I/O into business calculations. Plan tests first. |
 | [05 — Noisy CI (RTK)](05-noisy-ci-rtk/README.md) | C++ & Go | Simulated test runner, line/token comparison, fixtures | **Context Optimization:** Filter verbose compiler warnings and passing test noise before they exhaust Claude's context window. |
+| [06 — Hooks](06-hooks/README.md) | C++ & Terraform | Three PowerShell hooks, dry-run test, sample files | **Enforcement:** block destructive commands and catch x86/x64 and syntax defects automatically after every edit, instead of relying on prompt rules. |
 
 ## One-time setup (each participant, inside Claude Code, before the workshop)
 
