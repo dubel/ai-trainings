@@ -8,10 +8,10 @@ The exercises specifically target the team's stack: **C++17 on Windows (MSVC)** 
 |---|---|---|---|
 | [00 — Prompt Audit](00-prompt-audit/README.md) | Shared | Realistic unpruned `CLAUDE.md`, sample audit report | **Claude 101:** Audit repository guidance with `/claude-api prompt-audit` directly on the team's own `CLAUDE.md` (with fallback demo sample). Prune filler while preserving Windows MSVC flags. |
 | [01 — Caveman](01-caveman/README.md) | C++ | Saved C++ test output, prompt, expected responses | **Diagnostics:** Compress status updates and bug reports without losing error codes, reproduction steps, or unverified architectures. |
-| [02 — Ponytail](02-ponytail/README.md) | C++17 | C++17 source, regression test, instructor solution | **Implementation & Verification:** Fix a subtle range-check bug around integer overflow and 32-bit vs 64-bit (`size_t`) limits with one minimal check. |
-| [03 — Contract vs Prompt](03-contract-vs-prompt/README.md) | C++ & Go | Bounded deployment gate, unit tests, Run A vs Run B prompts | **Spec & Acceptance Criteria:** Compare a vague prompt (which causes Claude to add unneeded allocations, modern C++20, or breaking ABI) vs an engineering contract that enforces pure, bounded logic. |
-| [04 — Rules & Guardrails](04-rules-and-guardrails/README.md) | C++ & Go | Exponential retry policy, unit tests, `CLAUDE.md` rules | **Bounded Refactoring:** Enforce pure domain logic in legacy systems. Prevent Claude from hallucinating `Sleep()`, threads, or I/O into business calculations. Plan tests first. |
-| [05 — Noisy CI (RTK)](05-noisy-ci-rtk/README.md) | C++ & Go | Simulated test runner, line/token comparison, fixtures | **Context Optimization:** Filter verbose compiler warnings and passing test noise before they exhaust Claude's context window. |
+| [02 — Noisy CI (RTK)](02-noisy-ci-rtk/README.md) | C++ & Go | Simulated test runner, line/token comparison, fixtures | **Context Optimization:** Filter verbose compiler warnings and passing test noise before they exhaust Claude's context window. |
+| [03 — Ponytail](03-ponytail/README.md) | C++17 | C++17 source, regression test, instructor solution | **Implementation & Verification:** Fix a subtle range-check bug around integer overflow and 32-bit vs 64-bit (`size_t`) limits with one minimal check. |
+| [04 — Contract vs Prompt](04-contract-vs-prompt/README.md) | C++ & Go | Bounded deployment gate, unit tests, Run A vs Run B prompts | **Spec & Acceptance Criteria:** Compare a vague prompt (which causes Claude to add unneeded allocations, modern C++20, or breaking ABI) vs an engineering contract that enforces pure, bounded logic. |
+| [05 — Rules & Guardrails](05-rules-and-guardrails/README.md) | C++ & Go | Exponential retry policy, unit tests, `CLAUDE.md` rules | **Bounded Refactoring:** Enforce pure domain logic in legacy systems. Prevent Claude from hallucinating `Sleep()`, threads, or I/O into business calculations. Plan tests first. |
 | [06 — Hooks](06-hooks/README.md) | C++ & Terraform | Three PowerShell hooks, dry-run test, sample files | **Enforcement:** block destructive commands and catch x86/x64 and syntax defects automatically after every edit, instead of relying on prompt rules. |
 | [07 — Ticket to PR](07-ticket-to-pr/README.md) | C++17 | Ticket, three skills, starter code, tests, instructor solution | **Delivery loop:** fetch a ticket, spec it, implement in a fresh context, verify, adversarially review, and draft a PR. Reusable on the team's own tasks. |
 
@@ -25,7 +25,7 @@ The exercises specifically target the team's stack: **C++17 on Windows (MSVC)** 
 /reload-plugins
 ```
 
-Prompt audit needs no install (`/claude-api prompt-audit CLAUDE.md`). Per-demo checks and paste-in fallbacks are in the Setup section of Demos [00](00-prompt-audit/README.md), [01](01-caveman/README.md), and [02](02-ponytail/README.md). Plugins come from public repositories; follow the team's policy on third-party plugins.
+Prompt audit needs no install (`/claude-api prompt-audit CLAUDE.md`). Per-demo checks and paste-in fallbacks are in the Setup section of Demos [00](00-prompt-audit/README.md), [01](01-caveman/README.md), and [03](03-ponytail/README.md). Plugins come from public repositories; follow the team's policy on third-party plugins.
 
 ## Recommended Agenda Mapping (3 Hours)
 
@@ -34,10 +34,11 @@ Full schedule: [agenda.md](../agenda.md).
 | Time | Demo |
 |---|---|
 | 0:20–0:35 | 00 — Prompt Audit |
-| 0:35–0:55 | 01 — Caveman, 05 — Noisy CI (RTK) |
-| 0:55–1:15 | 02 — Ponytail |
-| 1:25–1:45 | 03 — Contract vs Prompt |
-| 1:45–2:00 | 04 — Rules & Guardrails |
+| 0:35–0:45 | 01 — Caveman |
+| 0:45–0:55 | 02 — Noisy CI (RTK) |
+| 0:55–1:15 | 03 — Ponytail |
+| 1:25–1:45 | 04 — Contract vs Prompt |
+| 1:45–2:00 | 05 — Rules & Guardrails |
 | 2:00–2:15 | 06 — Hooks |
 | 2:15–2:50 | 07 — Ticket to PR (Opus plans, Sonnet implements) |
 
