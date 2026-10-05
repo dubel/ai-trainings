@@ -4,4 +4,4 @@
 - Build and test with `build.bat` (detects `cl`, `clang++`, or `g++`). Warnings are errors.
 - `include/port_ranges.hpp` is the public contract; keep its signatures.
 - `instructor/` holds the reference solution. Leave it alone.
-- Port values are 16-bit but parsing happens in wider integers: guard overflow before narrowing, since `size_t` and `long` differ between x86, x64 Windows (LLP64) and Linux (LP64).
+- Port values are 16-bit but parsing happens in wider integers: guard overflow before narrowing, since `size_t` is 32-bit on x86 and 64-bit on x64, and `long` is 32-bit on both.
