@@ -459,17 +459,7 @@ on x64); cast to a 32-bit type truncates.</span></pre><p class="note">Exit code 
         <aside class="notes">Skip this slide if time is short. It matters once GitHub MCP is in use, because issue and pull request text comes from people who may not be on your team. The defenses are layered: treat tool output as data, keep permissions narrow, add hooks for commands that must never run, and keep a person on writes such as opening or merging a PR.</aside>
       </section>
 
-      <section class="slide" data-index="15" data-title="Platform claims require platform evidence">
-        <div class="section-head"><div><p class="eyebrow">C++ platform reality</p><h2>Platform claims require platform evidence</h2></div></div>
-        <div class="platform">
-          <article class="platform-card fragment"><p class="eyebrow">32-bit</p><h3>Windows · x86</h3><div class="platform-list"><div>32-bit size_t and pointers</div><div>Integer truncation and overflow</div><div>Warnings and tests on x86</div></div></article>
-          <div class="platform-link"></div>
-          <article class="platform-card fragment"><p class="eyebrow">64-bit</p><h3>Windows · x64</h3><div class="platform-list"><div>64-bit size_t and pointers</div><div>MSVC /W4 and unit tests</div><div>Narrowing from size_t</div></div></article>
-        </div>
-        <aside class="notes">A 64-bit test cannot prove 32-bit behavior, and one compiler cannot prove another. Report evidence for each target you claim, and name the targets you did not run. Encode the repeatable x86 and x64 build and test commands as a skill.</aside>
-      </section>
-
-      <section class="slide white" data-index="16" data-title="Every success claim needs observable proof">
+      <section class="slide white" data-index="15" data-title="Every success claim needs observable proof">
         <div class="section-head"><div><p class="eyebrow">Evidence contract</p><h2>Every success claim needs observable proof</h2></div></div>
         <div class="evidence">
           <article class="evidence-step fragment"><div class="disc"></div><h3>Claim</h3><p>State exactly what now works.</p></article>
@@ -480,7 +470,7 @@ on x64); cast to a 32-bit type truncates.</span></pre><p class="note">Exit code 
         <aside class="notes">Keep proof boundaries honest. Local tests, CI, review, deployment, and live behavior are distinct. A successful build proves compilation. It does not prove production behavior.</aside>
       </section>
 
-      <section class="slide white" data-index="17" data-title="Eight demos, one delivery loop">
+      <section class="slide white" data-index="16" data-title="Eight demos, one delivery loop">
         <div class="section-head"><div><p class="eyebrow">What happens next</p><h2>Eight demos, one delivery loop</h2></div></div>
         <div class="demo-map">
           <article class="demo fragment"><b>Demo 00<em>0:20</em></b><strong>Prompt Audit</strong><span>Prune CLAUDE.md, keep the MSVC flags.</span></article>
@@ -496,7 +486,7 @@ on x64); cast to a 32-bit type truncates.</span></pre><p class="note">Exit code 
         <aside class="notes">Walk the eight cards left to right. Times are minutes into the workshop. The instructor demonstrates each demo briefly and participants run it in their own Claude Code session; every demo has fallback files if a live call fails. The last demo ties the earlier ones into a ticket-to-PR loop they can reuse on their own tasks.</aside>
       </section>
 
-      <section class="slide dark" data-index="18" data-title="Questions before the demos?">
+      <section class="slide dark" data-index="17" data-title="Questions before the demos?">
         <div class="qa">
           <div><p class="eyebrow">Discussion</p><h2>Questions before the demos?</h2><p class="lead">Next: live Claude Code demos on C++ and Go examples, from prompt audit to ticket-to-PR.</p></div>
           <div class="qa-card"><div class="qmark">?</div></div>
@@ -509,7 +499,7 @@ on x64); cast to a 32-bit type truncates.</span></pre><p class="note">Exit code 
 
   <div id="progress"></div>
   <div id="help">←/→ navigate · G grid · T theme · F full screen · H controls · Alt+A admin</div>
-  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 18</span><button id="next" aria-label="Next slide">›</button></nav>
+  <nav id="controls" aria-label="Presentation controls"><button id="prev" aria-label="Previous slide">‹</button><span id="counter">01 / 17</span><button id="next" aria-label="Next slide">›</button></nav>
 
   <div id="admin" aria-hidden="true">
     <section class="admin-card">
