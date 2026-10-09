@@ -1,0 +1,27 @@
+[10:03:00] pipeline infra-validate started
+[10:03:01] restoring cache terraform-provider-aws
+[10:03:02] cache hit
+[10:03:03] module network: fmt passed
+[10:03:04] module compute: fmt passed
+[10:03:05] module database: fmt passed
+[10:03:06] module network: validate passed
+[10:03:07] module compute: validate passed
+[10:03:08] module database: validate passed
+[10:03:09] policy check 01/12 passed
+[10:03:10] policy check 02/12 passed
+[10:03:11] policy check 03/12 passed
+[10:03:12] policy check 04/12 passed
+[10:03:13] policy check 05/12 passed
+[10:03:14] policy check 06/12 passed
+[10:03:15] policy check 07/12 passed
+[10:03:16] policy check 08/12 passed
+[10:03:17] policy check 09/12 passed
+[10:03:18] policy check 10/12 passed
+[10:03:19] policy check 11/12 passed
+[10:03:20] policy check 12/12 FAILED
+policy/public-ingress.rego:47 deny: aws_security_group.report_api permits 0.0.0.0/0 on tcp/8443
+[10:03:21] upload diagnostic bundle started
+[10:03:22] upload diagnostic bundle complete
+[10:03:23] cleanup temporary plan
+[10:03:24] job failed: 1 failed, 11 passed
+

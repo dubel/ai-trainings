@@ -1,0 +1,8 @@
+10:02 database connection success rate: 99.98%
+10:04 database connection success rate: 61.20%
+10:05 database connection success rate: 0.00%
+10:05 report-api log: "startup dependency check failed: dial tcp db.internal:5432: i/o timeout"
+10:06 report-api readiness latency p95: 5.0s
+10:07 report-api HTTP 503 rate: 66.7%
+10:10 legacy replica HTTP 200 rate: 100%
+

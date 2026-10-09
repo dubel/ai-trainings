@@ -1,0 +1,9 @@
+{
+  "name": "cloud-ops",
+  "description": "Reviewed cloud operations workflows for Claude Code",
+  "version": "1.0.0",
+  "author": {
+    "name": "Cloud Platform Team"
+  }
+}
+

@@ -1,0 +1,11 @@
+{
+  "name": "pa-training-13-10",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "validate": "node scripts/validate.mjs",
+    "test": "node scripts/test-exercises.mjs"
+  }
+}

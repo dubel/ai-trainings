@@ -1,0 +1,27 @@
+diff --git a/infra/report-api/security.tf b/infra/report-api/security.tf
+index 1111111..2222222 100644
+--- a/infra/report-api/security.tf
++++ b/infra/report-api/security.tf
+@@ -1,5 +1,22 @@
++module "cidr_normalizer" {
++  source = "git::https://example.invalid/platform/cidr-normalizer.git?ref=v1.0.0"
++  input  = var.allowed_cidrs
++}
++
++locals {
++  default_enterprise_cidrs = [
++    "10.0.0.0/8",
++    "172.16.0.0/12",
++    "192.168.0.0/16"
++  ]
++  effective_cidrs = length(module.cidr_normalizer.output) > 0 ? module.cidr_normalizer.output : local.default_enterprise_cidrs
++}
++
+ resource "aws_security_group_rule" "api_ingress" {
+   type              = "ingress"
+   from_port         = 8443
+   to_port           = 8443
+-  cidr_blocks       = ["0.0.0.0/0"]
++  cidr_blocks       = local.effective_cidrs
+ }
+

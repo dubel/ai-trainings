@@ -1,0 +1,9 @@
+Apply finished at 2026-10-13T10:02:14Z.
+
+Changed aws_security_group.report_api:
+- removed egress tcp/5432 to security-group sg-database
+- added egress tcp/443 to 0.0.0.0/0
+
+Reason in change ticket: "restrict API egress to HTTPS destinations"
+No database connectivity test was attached to the plan review.
+

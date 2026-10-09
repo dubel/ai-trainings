@@ -1,0 +1,7 @@
+2026-10-13T10:03:42Z deployment/report-api rollout started image=report-api:2026.10.13-1
+2026-10-13T10:05:01Z pod/report-api-7c9d Ready=False reason=ReadinessProbeFailed message="HTTP 503"
+2026-10-13T10:05:18Z pod/report-api-7c9d restartCount=0
+2026-10-13T10:06:11Z pod/report-api-7c9d Ready=False reason=ReadinessProbeFailed message="HTTP 503"
+2026-10-13T10:07:05Z deployment/report-api progressDeadlineSeconds=600 availableReplicas=1 updatedReplicas=3
+2026-10-13T10:09:10Z deployment/report-api rollout paused by operator
+

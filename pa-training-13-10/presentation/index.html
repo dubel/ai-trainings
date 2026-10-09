@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en" data-theme="paloalto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Engineering AI with Claude Code workshop for cloud and DevOps engineers">
+  <title>Engineering AI with Claude Code</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+  <main class="deck" aria-label="Engineering AI with Claude Code presentation">
+    <div class="slide-container" id="stage">
+      <section class="slide dark cover active" data-title="Engineering AI with Claude Code">
+        <div class="brand-mark"><i></i><span>Cloud &amp; DevOps workshop</span></div>
+        <p class="eyebrow">13 October 2026 · practical training</p>
+        <h1>Engineering AI<br>with <span>Claude Code</span></h1>
+        <p class="lead">Turn model capability into a repeatable, bounded engineering system.</p>
+        <p class="meta">Skills · hooks · subagents · agent teams · goals · loops</p>
+        <div class="hero-orbit" aria-hidden="true"></div><div class="hero-node" aria-hidden="true"></div>
+      </section>
+
+      <section class="slide white" data-title="Show of hands">
+        <p class="eyebrow">Quick check · show of hands</p>
+        <h2>What have you already done with AI?</h2>
+        <ol class="hand-list">
+          <li><b>1</b><span>Asked questions or used autocomplete</span></li>
+          <li><b>2</b><span>Generated a script, Terraform change, or pipeline edit</span></li>
+          <li><b>3</b><span>Let an agent inspect files, edit, and run checks</span></li>
+          <li><b>4</b><span>Committed team rules, skills, hooks, or agents to a repository</span></li>
+          <li><b>5</b><span>Ran unattended or parallel agent work with hard boundaries</span></li>
+        </ol>
+        <p class="footnote">Keep one hand up for production credentials, IAM, or deployment changes.</p>
+      </section>
+
+      <section class="slide dark statement" data-title="Workshop outcome">
+        <p class="eyebrow">Workshop outcome</p>
+        <h2>A useful agent leaves evidence, not confidence</h2>
+        <div class="statement-grid">
+          <div><strong>Place</strong><span>knowledge in the right mechanism</span></div>
+          <div><strong>Bound</strong><span>tools, secrets, time, and blast radius</span></div>
+          <div><strong>Verify</strong><span>claims with commands and observable state</span></div>
+          <div><strong>Transfer</strong><span>each pattern to your own repository</span></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Five adoption levels">
+        <p class="eyebrow">Adoption model</p>
+        <h2>Five adoption levels</h2>
+        <div class="levels">
+          <article><b>1 · Answer</b><strong>Prompting</strong><span>A human asks and evaluates each response.</span></article>
+          <article><b>2 · Edit</b><strong>Assisted coding</strong><span>The model prepares a bounded change.</span></article>
+          <article><b>3 · Task</b><strong>Agentic coding</strong><span>The agent explores, changes, tests, and corrects.</span></article>
+          <article><b>4 · Contract</b><strong>Spec driven</strong><span>Acceptance criteria control the work.</span></article>
+          <article><b>5 · Process</b><strong>Bounded autonomy</strong><span>The agent handles a recurring workflow inside limits.</span></article>
+        </div>
+        <aside class="notes">This is a workshop model, not an industry standard.</aside>
+      </section>
+
+      <section class="slide white" data-title="Adoption is workflow specific">
+        <p class="eyebrow">Risk-adjusted adoption</p>
+        <h2>Choose a level for each workflow</h2>
+        <div class="risk-map">
+          <div class="risk-axis"><span>Low blast radius</span><span>High blast radius</span></div>
+          <div class="risk-line safe"><b>Level 4–5</b><strong>Test generation</strong><span>Fast checks, isolated branch, easy rollback</span></div>
+          <div class="risk-line medium"><b>Level 2–3</b><strong>Terraform module change</strong><span>Plan evidence, policy checks, human apply</span></div>
+          <div class="risk-line danger"><b>Level 1–2</b><strong>Production IAM</strong><span>Read-only investigation, explicit approval for every effect</span></div>
+        </div>
+        <p class="callout">Maturity means a repeatable control system, not access to a stronger model.</p>
+      </section>
+
+      <section class="slide" data-title="Claude Code extension map">
+        <p class="eyebrow">Claude Code mental model</p>
+        <h2>Each mechanism has one primary job</h2>
+        <div class="mechanism-map">
+          <div><b>CLAUDE.md</b><span>Facts needed in every session</span></div>
+          <div><b>Rules</b><span>Guidance for matching files or directories</span></div>
+          <div><b>Skills</b><span>Reusable knowledge and procedures on demand</span></div>
+          <div><b>Hooks</b><span>Automatic lifecycle reactions and enforcement</span></div>
+          <div><b>Subagents</b><span>Isolated workers that return a result</span></div>
+          <div><b>Agent teams</b><span>Independent sessions with shared tasks and messages</span></div>
+          <div><b>MCP</b><span>Access to external systems and data</span></div>
+        </div>
+        <aside class="notes">Source: https://code.claude.com/docs/en/features-overview</aside>
+      </section>
+
+      <section class="slide dark" data-title="Guidance and enforcement">
+        <p class="eyebrow">Placement rule</p>
+        <h2>Reasoning belongs in context. Invariants belong in runtime controls.</h2>
+        <div class="guardrail-bridge">
+          <div><strong>Guidance</strong><p><code>CLAUDE.md</code>, rules, skills</p><span>“Prefer module outputs over remote-state lookups.”</span></div>
+          <div class="bridge-core"><b>Agent decision</b><span>proposes a tool call</span></div>
+          <div><strong>Enforcement</strong><p>deny rules, hooks, sandbox, CI</p><span>“Block reads of every <code>.env</code> file.”</span></div>
+        </div>
+        <p class="callout dark-callout">A prompt can influence behavior. It cannot remove a capability.</p>
+      </section>
+
+      <section class="slide" data-title="Prompt grammar">
+        <p class="eyebrow">Prompting</p>
+        <h2>Goal, Context, Boundaries, Evidence</h2>
+        <div class="prompt-grammar">
+          <div><b>G</b><strong>Goal</strong><span>What observable outcome should exist?</span></div>
+          <div><b>C</b><strong>Context</strong><span>Which files, commands, and facts matter?</span></div>
+          <div><b>B</b><strong>Boundaries</strong><span>What may change, what may not, and when should it ask?</span></div>
+          <div><b>E</b><strong>Evidence</strong><span>Which checks prove completion?</span></div>
+        </div>
+        <pre class="prompt-sample">Goal: make the production deployment gate reject destructive plans.
+Context: task.md, src/deploy-gate.mjs, existing tests.
+Boundaries: preserve the API; no new dependency; stop before deploy.
+Evidence: focused tests pass; show the diff and remaining risks.</pre>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 01 prompt contract">
+        <p class="eyebrow">Exercise 01 · 12 minutes</p>
+        <h2>Turn a vague deployment request into a contract</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Run the failing deployment-gate tests.</li>
+            <li>Compare <code>prompt-vague.md</code> with <code>prompt-contract.md</code>.</li>
+            <li>Ask Claude to plan first, then implement the contract.</li>
+            <li>Reject any success claim without the test output.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Replace the sample files with one real policy boundary, its current implementation, and the fastest authoritative check.</p><code>demos/01-prompt-contract</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Skill lifecycle">
+        <p class="eyebrow">Skills</p>
+        <h2>Skills are maintained products</h2>
+        <div class="skill-loop">
+          <div><b>1</b><strong>Observe repetition</strong><span>The same prompt, checklist, or mistake appears again.</span></div>
+          <div><b>2</b><strong>Define the trigger</strong><span>The description says when to use and when to stay silent.</span></div>
+          <div><b>3</b><strong>Package the method</strong><span>Keep <code>SKILL.md</code> small; move policy and scripts into supporting files.</span></div>
+          <div><b>4</b><strong>Evaluate behavior</strong><span>Positive, negative, and edge cases compare results with and without the skill.</span></div>
+          <div><b>5</b><strong>Grow from failures</strong><span>Add a gotcha only after an observed failure or review comment.</span></div>
+        </div>
+        <aside class="notes">Source: https://code.claude.com/docs/en/skills</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 02 skill lifecycle">
+        <p class="eyebrow">Exercise 02 · 18 minutes</p>
+        <h2>Evaluate a Terraform plan-review skill</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Read the skill description before its body.</li>
+            <li>Run the positive prompt against the destructive plan fixture.</li>
+            <li>Run the negative prompt about a Kubernetes restart.</li>
+            <li>Add one gotcha only if the result fails the rubric.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Point the skill at your policy source, approved commands, and evidence format. Keep credentials and environment access outside the skill.</p><code>demos/03-skill-lifecycle</code></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Share skills">
+        <p class="eyebrow">Skill distribution</p>
+        <h2>Share skills at the narrowest useful scope</h2>
+        <div class="distribution">
+          <div><b>One repository</b><strong><code>.claude/skills/</code></strong><span>Version with code. Review changes in the same PR.</span></div>
+          <div><b>Several repositories</b><strong>Claude plugin</strong><span>Bundle skills, agents, hooks, and MCP configuration.</span></div>
+          <div><b>A team catalog</b><strong>Private marketplace on GitHub</strong><span>Install by name and receive versioned updates.</span></div>
+          <div><b>Organization policy</b><strong>Managed settings or required marketplace</strong><span>Central delivery and governance across machines.</span></div>
+          <div><b>Personal experiments</b><strong><code>~/.claude/skills/</code></strong><span>Fast iteration, but no team guarantee.</span></div>
+        </div>
+        <aside class="notes">Sources: https://code.claude.com/docs/en/skills and /plugins/create-marketplace</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 03 team marketplace">
+        <p class="eyebrow">Exercise 03 · 12 minutes</p>
+        <h2>Inspect a team plugin and marketplace</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Trace the marketplace entry to the plugin manifest.</li>
+            <li>Confirm the manifest name and catalog name match.</li>
+            <li>Inspect the namespaced command <code>/cloud-ops:k8s-preflight</code>.</li>
+            <li>Choose ownership, release review, and rollback rules.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Begin with a project skill. Promote it to a plugin only after a second repository needs the same behavior.</p><code>demos/04-skill-distribution</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Rules scope">
+        <p class="eyebrow">Project guidance</p>
+        <h2>Global facts, local rules</h2>
+        <div class="rules-tree">
+          <pre>repo/
+├── <b>CLAUDE.md</b>                 # build, architecture, shared invariants
+├── <b>.claude/rules/terraform.md</b> # paths: infra/**/*.tf
+├── <b>.claude/rules/k8s.md</b>       # paths: deploy/**/*.yaml
+├── services/api/<b>CLAUDE.md</b>     # service-local facts
+└── <b>CLAUDE.local.md</b>            # personal, not committed</pre>
+          <div>
+            <p><b>Write rules for surprises.</b><br>Do not restate what the code or formatter already makes obvious.</p>
+            <p><b>Use observable language.</b><br>Name the command, path, invariant, or review evidence.</p>
+            <p><b>Resolve conflicts.</b><br>Claude loads files additively. More text does not create stronger enforcement.</p>
+          </div>
+        </div>
+        <aside class="notes">Source: https://code.claude.com/docs/en/memory</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 04 rules scope">
+        <p class="eyebrow">Exercise 04 · 12 minutes</p>
+        <h2>Split a dumping-ground CLAUDE.md</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Mark rules needed for every task.</li>
+            <li>Move Terraform and Kubernetes guidance into path-scoped rules.</li>
+            <li>Delete guidance that tools already enforce.</li>
+            <li>Compare your split with the supplied solution.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Audit recurring corrections from code review. Put cross-cutting facts at the root and local exceptions next to the files they govern.</p><code>demos/02-rules-scope</code></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Sensitive file boundary">
+        <p class="eyebrow">Deterministic boundary</p>
+        <h2>Sensitive files need a runtime boundary</h2>
+        <div class="boundary-stack">
+          <div class="strong"><b>1 · Remove access</b><strong>Do not mount secrets into the workspace</strong><span>Container, ephemeral credentials, separate identity, or redacted fixtures.</span></div>
+          <div><b>2 · Deny file tools</b><strong><code>Read(**/.env)</code> and <code>Read(**/secrets/**)</code></strong><span>Blocks built-in reads and applies to edits on the same path.</span></div>
+          <div><b>3 · Inspect tool calls</b><strong><code>PreToolUse</code> hook</strong><span>Rejects matching Read, Edit, Write, Bash, and PowerShell requests.</span></div>
+          <div><b>4 · Explain intent</b><strong>CLAUDE.md</strong><span>Useful feedback for the model, but never the security boundary.</span></div>
+        </div>
+        <p class="footnote">Hooks and command matching reduce accidental access. Isolation protects against bypasses and untrusted content.</p>
+        <aside class="notes">Sources: https://code.claude.com/docs/en/permissions and /hooks-guide</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 05 sensitive file guard">
+        <p class="eyebrow">Exercise 05 · 15 minutes</p>
+        <h2>Prove that the secret guard blocks reads</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Inspect the permission deny rules and hook matcher.</li>
+            <li>Run the hook test harness with safe and forbidden inputs.</li>
+            <li>Try a path with Windows separators and a nested <code>.env</code>.</li>
+            <li>Name the bypasses that only isolation can close.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Start with an inventory of secret locations. Enforce organization-wide deny rules where possible, then keep a repository hook for fast feedback.</p><code>demos/05-sensitive-file-guard</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Subagent orchestration">
+        <p class="eyebrow">Subagents</p>
+        <h2>Subagent orchestration is a fan-out, fan-in contract</h2>
+        <div class="orchestration">
+          <div class="orchestrator"><b>Main context</b><strong>Owns the question and synthesis</strong><span>Defines scope, evidence, and the final decision.</span></div>
+          <div class="workers">
+            <div><b>Inventory</b><span>Read-only repo topology and ownership</span></div>
+            <div><b>Security</b><span>IAM and secret exposure review</span></div>
+            <div><b>Verification</b><span>Tests, policy checks, and rollback evidence</span></div>
+          </div>
+          <div class="return"><b>Return schema</b><span>Finding · evidence · confidence · next check</span></div>
+        </div>
+        <p class="callout">Good orchestration limits tools, assigns non-overlapping work, and budgets the number of workers.</p>
+        <aside class="notes">Source: https://code.claude.com/docs/en/sub-agents</aside>
+      </section>
+
+      <section class="slide" data-title="Context split decision">
+        <p class="eyebrow">Context engineering</p>
+        <h2>Context split decision</h2>
+        <div class="decision-grid">
+          <div class="decision yes"><b>Use a subagent</b><ul><li>Search or logs would flood the main context</li><li>The task has a clear return value</li><li>Work can run independently</li><li>A narrower tool set reduces risk</li></ul></div>
+          <div class="decision no"><b>Keep it in the main context</b><ul><li>The next decision needs the full conversation</li><li>Steps are serial and share evolving state</li><li>Several workers would edit the same files</li><li>Coordination costs more than the work</li></ul></div>
+        </div>
+        <p class="footnote">A subagent saves main-window space, but it still consumes tokens and must receive enough context to succeed.</p>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 06 subagent review">
+        <p class="eyebrow">Exercise 06 · 18 minutes</p>
+        <h2>Run three read-only reviewers, then synthesize</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Inspect the three custom agent definitions.</li>
+            <li>Launch them with separate evidence questions.</li>
+            <li>Require the same return schema from every worker.</li>
+            <li>Have the main agent resolve contradictions and gaps.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Delegate bounded investigations and reviews. Keep the owner, integration decision, and shared-file edits in the main context.</p><code>demos/06-subagent-orchestration</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Agent teams">
+        <p class="eyebrow">Agent teams · experimental</p>
+        <h2>Use a team when workers must coordinate with each other</h2>
+        <div class="team-topology">
+          <div class="lead-node"><b>Lead</b><span>owns incident question and synthesis</span></div>
+          <div class="team-node one"><b>Kubernetes</b><span>events and rollout state</span></div>
+          <div class="team-node two"><b>Infrastructure</b><span>Terraform and cloud changes</span></div>
+          <div class="team-node three"><b>Observability</b><span>logs, metrics, and timeline</span></div>
+          <div class="task-list"><b>Shared task list</b><span>Teammates claim work and message one another.</span></div>
+        </div>
+        <p class="callout">Best fit: competing hypotheses, cross-layer investigation, or separate modules. Poor fit: sequential work and same-file edits.</p>
+        <aside class="notes">Agent teams are experimental and disabled by default. Source: https://code.claude.com/docs/en/agent-teams</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 07 incident team">
+        <p class="eyebrow">Exercise 07 · 20 minutes</p>
+        <h2>Investigate one deployment incident as a team</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Enable agent teams only in the training environment.</li>
+            <li>Spawn three teammates with read-only hypotheses.</li>
+            <li>Assign separate evidence files and a shared task list.</li>
+            <li>Ask teammates to challenge conflicting timestamps.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Use a team when independent investigators need peer messaging. Keep production actions outside the team and designate one integration owner.</p><code>demos/07-agent-team-incident</code></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Goals and loops">
+        <p class="eyebrow">Long-running work</p>
+        <h2><code>/goal</code> and <code>/loop</code> solve different control problems</h2>
+        <div class="goal-loop">
+          <div><b>/goal</b><strong>Work until a condition is met</strong><span>An evaluator checks the transcript after each turn. Use a measurable finish line, a proof command, constraints, and a turn or time bound.</span><code>/goal tests pass, lint is clean, no other files change, or stop after 12 turns</code></div>
+          <div><b>/loop</b><strong>Wake up and check again</strong><span>A prompt reruns at a fixed or model-chosen interval while the session remains open. Use it for polling deployment or review state.</span><code>/loop 5m check the rollout; report only on change or failure</code></div>
+        </div>
+        <p class="footnote">A goal pursues completion. A loop observes time-dependent state. Neither expands permissions.</p>
+        <aside class="notes">Sources: https://code.claude.com/docs/en/goal and /scheduled-tasks</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 08 goal and loop">
+        <p class="eyebrow">Exercise 08 · 15 minutes</p>
+        <h2>Fix with a goal, observe with a loop</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Set a goal around the failing maintenance-window test.</li>
+            <li>Include the proof command and a 10-turn limit.</li>
+            <li>Use the deployment fixture for a two-minute loop.</li>
+            <li>Explain which one you would never leave unattended.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Use goals for self-correcting work with a deterministic check. Use loops for changing external state with a quiet, actionable notification rule.</p><code>demos/08-goal-loop</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Jev and Needle 3">
+        <p class="eyebrow">Model routing</p>
+        <h2>Jev and Needle 3 trade generality for specialized execution</h2>
+        <div class="model-lanes">
+          <div><b>Claude</b><strong>Open-ended reasoning</strong><span>Repository exploration, code changes, incident synthesis, and ambiguous planning.</span><em>Cloud model · natural language and tools</em></div>
+          <div><b>Jev · TypeSafe AI</b><strong>Typed probabilistic decisions</strong><span>High-volume classification, routing, scoring, extraction, and guardrails that software consumes directly.</span><em>Early access · vendor claims require validation</em></div>
+          <div><b>Needle 3 · Cactus</b><strong>Local tool calls and extraction</strong><span>Offline or private actions on mobile, edge, appliances, and constrained devices.</span><em>8–29 MB binary is a vendor claim</em></div>
+        </div>
+        <p class="callout">Route by task shape, latency, deployment location, and failure handling. Keep a fallback for low confidence and unsupported work.</p>
+        <aside class="notes">Sources: https://typesafe.ai/blog/introducing-system-one-models-and-jev and https://www.cactuscompute.com/needle</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 09 model routing">
+        <p class="eyebrow">Exercise 09 · 12 minutes</p>
+        <h2>Route six automation tasks to the right model class</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Classify each task by ambiguity and response shape.</li>
+            <li>Choose Claude, Jev, Needle 3, or deterministic code.</li>
+            <li>Define a typed output and confidence threshold.</li>
+            <li>Name the fallback when the model abstains or fails.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Start with one high-volume decision or offline tool-selection task. Benchmark it against a deterministic baseline and your current model.</p><code>demos/09-model-routing</code></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="RTK Caveman Ponytail">
+        <p class="eyebrow">Cost, context, and effort</p>
+        <h2>RTK, Caveman, and Ponytail remove different waste</h2>
+        <div class="tool-trio">
+          <article><div class="tool-art terminal">$ rtk kubectl logs<br><span>failures and signal only</span></div><h3>RTK</h3><p>Filters terminal output before it enters model context.</p><b>Measure: input bytes and retained diagnostic signal</b></article>
+          <article><div class="tool-art"><img src="../../palo-alto-training/assets/caveman/caveman-logo-banner.png" alt="Caveman logo"></div><h3>Caveman</h3><p>Shortens prose while keeping commands, errors, and technical facts.</p><b>Measure: output tokens and missing facts</b></article>
+          <article><div class="tool-art black"><img src="../../palo-alto-training/assets/ponytail/logo.png" alt="Ponytail logo"></div><h3>Ponytail</h3><p>Pushes toward YAGNI, standard-library use, and the smallest correct diff.</p><b>Measure: changed lines and acceptance criteria</b></article>
+        </div>
+        <aside class="notes">Sources: GitHub repositories for rtk-ai/rtk, JuliusBrussee/caveman, and DietrichGebert/ponytail.</aside>
+      </section>
+
+      <section class="slide dark exercise" data-title="Exercise 10 waste levers">
+        <p class="eyebrow">Exercise 10 · 15 minutes</p>
+        <h2>Reduce noise without deleting evidence</h2>
+        <div class="exercise-layout">
+          <ol>
+            <li>Compare the noisy log with its compact form.</li>
+            <li>Write a seven-line incident update in Caveman style.</li>
+            <li>Review the proposed fix with Ponytail constraints.</li>
+            <li>Record what each lever cannot reduce.</li>
+          </ol>
+          <div class="transfer"><b>Use it in your project</b><p>Measure each mechanism separately. A smaller terminal log, shorter answer, and smaller diff are different outcomes.</p><code>demos/10-waste-levers</code></div>
+        </div>
+      </section>
+
+      <section class="slide white" data-title="Integrated workflow">
+        <p class="eyebrow">Integrated workflow</p>
+        <h2>A ticket-to-change loop for cloud engineering</h2>
+        <div class="pipeline">
+          <div><b>1</b><strong>Contract</strong><span>Goal, boundaries, evidence, stop rule</span></div>
+          <div><b>2</b><strong>Investigate</strong><span>Scoped rules and read-only subagents</span></div>
+          <div><b>3</b><strong>Plan</strong><span>Files, commands, risk, and rollback</span></div>
+          <div><b>4</b><strong>Change</strong><span>Small diff with runtime guardrails</span></div>
+          <div><b>5</b><strong>Verify</strong><span>Focused checks, broad checks, diff review</span></div>
+          <div><b>6</b><strong>Learn</strong><span>Turn repeated corrections into a rule, skill, hook, or eval</span></div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Team rollout">
+        <p class="eyebrow">Next 30 days</p>
+        <h2>Build one controlled path before scaling</h2>
+        <div class="rollout">
+          <div><b>Week 1</b><strong>Choose one benchmark task</strong><span>Stable input, measurable output, low blast radius.</span></div>
+          <div><b>Week 2</b><strong>Commit one rule and one skill</strong><span>Review ownership, triggers, evidence, and failure cases.</span></div>
+          <div><b>Week 3</b><strong>Add one hard guardrail</strong><span>Secret boundary, destructive-command block, or CI gate.</span></div>
+          <div><b>Week 4</b><strong>Measure accepted outcomes</strong><span>Lead time, review effort, cost, regressions, and blocked actions.</span></div>
+        </div>
+        <p class="callout">Scale the workflow only after the team can explain why it succeeded and how it fails safely.</p>
+      </section>
+
+      <section class="slide white resources" data-title="Resources">
+        <p class="eyebrow">Keep exploring</p>
+        <h2>Reference map</h2>
+        <div class="resource-list">
+          <div><b>Claude Code</b><span><code>code.claude.com/docs</code><br>Skills, hooks, permissions, agents, goals, loops, plugins</span></div>
+          <div><b>Workshop files</b><span><code>README.md</code><br><code>participant-agenda.md</code><br><code>demos/README.md</code></span></div>
+          <div><b>Source notes</b><span><code>SOURCES.md</code><br>Vendor claims and product caveats are labelled.</span></div>
+        </div>
+        <p class="footnote">Before delivery, confirm the Claude Code version and run <code>npm run validate</code>.</p>
+      </section>
+
+      <section class="slide dark finale" data-title="Questions">
+        <div>
+          <p class="eyebrow">Questions</p>
+          <h2>The target is justified autonomy</h2>
+          <p class="lead">A clear contract. Focused context. Limited tools. Observable evidence.</p>
+        </div>
+        <div class="final-mark">?</div>
+      </section>
+    </div>
+  </main>
+
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="controls" id="controls" aria-label="Presentation controls">
+    <button id="prev" aria-label="Previous slide">‹</button>
+    <span id="counter">01 / 32</span>
+    <button id="next" aria-label="Next slide">›</button>
+  </div>
+  <div class="help">←/→ navigate · G grid · T theme · F full screen · H controls</div>
+  <script src="slides.js?v=2"></script>
+</body>
+</html>

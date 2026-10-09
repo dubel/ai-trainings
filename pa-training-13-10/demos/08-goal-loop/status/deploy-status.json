@@ -1,0 +1,9 @@
+{
+  "deployment": "report-api-2026.10.13-1",
+  "phase": "ROLLING_OUT",
+  "ready": 2,
+  "desired": 4,
+  "failedChecks": [],
+  "observedAt": "2026-10-13T12:00:00Z"
+}
+
