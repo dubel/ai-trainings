@@ -1,0 +1,15 @@
+{
+  "name": "team-cloud-tools",
+  "description": "Reviewed Claude Code plugins for the cloud engineering team",
+  "owner": {
+    "name": "Cloud Platform Team"
+  },
+  "plugins": [
+    {
+      "name": "cloud-ops",
+      "source": "./plugins/cloud-ops",
+      "description": "Read-only preflight and evidence workflows for Kubernetes changes"
+    }
+  ]
+}
+

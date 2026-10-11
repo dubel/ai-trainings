@@ -1,0 +1,5 @@
+FAILED 1/12 policy checks
+policy/public-ingress.rego:47
+aws_security_group.report_api permits 0.0.0.0/0 on tcp/8443
+Summary: 11 passed, 1 failed
+

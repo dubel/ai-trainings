@@ -1,0 +1,15 @@
+Terraform will perform the following actions:
+
+  # aws_db_instance.orders must be replaced
+  -/+ resource "aws_db_instance" "orders" {
+        identifier = "orders-prod"
+      ~ engine_version = "14.8" -> "16.1" # forces replacement
+    }
+
+  # aws_security_group.api will be updated in-place
+  ~ resource "aws_security_group" "api" {
+      + ingress { cidr_blocks = ["0.0.0.0/0"], from_port = 8443, to_port = 8443 }
+    }
+
+Plan: 0 to add, 1 to change, 1 to destroy.
+
