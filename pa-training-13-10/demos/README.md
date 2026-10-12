@@ -1,6 +1,6 @@
 # Workshop exercises
 
-Each exercise has a short sample task plus a transfer section for applying the pattern to a real repository.
+Each exercise has a short sample task plus a transfer section for applying the pattern to a real repository. Open its `ABOUT.MD` when you need the detailed reasoning path, expected result, common wrong turns, or a trainer fallback.
 
 | Exercise | Topic | Main artifact |
 |---|---|---|
@@ -17,8 +17,8 @@ Each exercise has a short sample task plus a transfer section for applying the p
 
 ## Exercise convention
 
+- `ABOUT.MD` is the detailed answer key and recovery guide; use it when the trainer or participant gets stuck.
 - `starter` or source files are safe to change.
 - `solution` and `expected` folders are for comparison after the exercise.
 - Commands use local fixtures and do not contact cloud providers.
 - A passing test proves only the sample behavior. It does not approve a production deployment.
-

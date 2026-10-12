@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Engineering AI with Claude Code workshop for cloud and DevOps engineers">
   <title>Engineering AI with Claude Code</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <main class="deck" aria-label="Engineering AI with Claude Code presentation">
@@ -56,16 +56,22 @@
         <aside class="notes">This is a workshop model, not an industry standard.</aside>
       </section>
 
-      <section class="slide white" data-title="Adoption is workflow specific">
+      <section class="slide white" data-title="Autonomy and controlled blast radius">
         <p class="eyebrow">Risk-adjusted adoption</p>
-        <h2>Choose a level for each workflow</h2>
-        <div class="risk-map">
-          <div class="risk-axis"><span>Low blast radius</span><span>High blast radius</span></div>
-          <div class="risk-line safe"><b>Level 4–5</b><strong>Test generation</strong><span>Fast checks, isolated branch, easy rollback</span></div>
-          <div class="risk-line medium"><b>Level 2–3</b><strong>Terraform module change</strong><span>Plan evidence, policy checks, human apply</span></div>
-          <div class="risk-line danger"><b>Level 1–2</b><strong>Production IAM</strong><span>Read-only investigation, explicit approval for every effect</span></div>
+        <h2>Autonomy and blast radius are separate decisions</h2>
+        <p class="risk-intro"><b>Level</b> describes permitted autonomy. <b>Controlled blast radius</b> describes what a failure can affect after current guardrails.</p>
+        <div class="risk-matrix" aria-label="Adoption level by controlled blast radius">
+          <div class="risk-levels" aria-hidden="true">
+            <span>Level 5</span><span>Level 4</span><span>Level 3</span><span>Level 2</span><span>Level 1</span>
+          </div>
+          <div class="risk-plot">
+            <article class="risk-point tests"><b>Level 4–5</b><strong>Test generation</strong><span>Isolated branch, fast checks, easy rollback</span></article>
+            <article class="risk-point terraform"><b>Level 3–4</b><strong>Terraform PR, no apply</strong><span>Plan evidence, policy checks, human-owned execution</span></article>
+            <article class="risk-point iam"><b>Level 1–2</b><strong>Production IAM mutation</strong><span>Read-only investigation, explicit approval for every effect</span></article>
+          </div>
+          <div class="risk-axis"><span>Low controlled blast radius</span><span>High controlled blast radius</span></div>
         </div>
-        <p class="callout">Maturity means a repeatable control system, not access to a stronger model.</p>
+        <p class="callout">Guardrails can reduce controlled blast radius. Reassess the level after adding isolation, policy checks, approvals, and rollback.</p>
       </section>
 
       <section class="slide" data-title="Claude Code extension map">

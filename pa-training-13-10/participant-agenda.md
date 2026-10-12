@@ -34,3 +34,7 @@
 - Keep external side effects behind explicit human approval.
 - Prefer small, reversible changes with visible evidence.
 
+## Joke
+
+![img.png](joke_by_kent.png)
+
